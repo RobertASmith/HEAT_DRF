@@ -126,7 +126,7 @@ ditch_the_axes <- theme(
   axis.title = element_blank()
 )
 
-ggplot(data= map.vsly, 
+plot1 <- (ggplot(data= map.vsly, 
        aes(x = long, y = lat, group = group)) +
             
             geom_polygon(aes(fill = both),
@@ -149,7 +149,10 @@ ggplot(data= map.vsly,
                   legend.title = element_blank(),
                   panel.background = element_rect(fill = "aliceblue"),
                   legend.key.width = unit(0.5,"cm"))
+)
 
-
+pdf("figures/ggplot.pdf")
+print(plot1)     # Plot 1 --> in the first page of PDF
+dev.off() 
 
 
