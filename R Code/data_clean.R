@@ -1,10 +1,30 @@
 #===
-# EXTRACTING TABLE FROM PDF.
+# setup
 #===
+
 rm(list=ls())
 library("tidyverse")
 library("stringr")
 library("pdftools")
+library(readxl)
+library(reshape2)
+library(ggplot2)
+library(tidyr)
+library("mc2d")
+library("ggrepel") 
+library(knitr)
+library(dplyr)
+library(rgeos)
+library(rworldmap)
+library(flextable)
+library("viridis")
+
+#  Guthold R, Stevens GA, Riley LM, Bull FC. Worldwide trends in insufficient physical activity from 2001 to 2016: a 
+#  pooled analysis of 358 population-based surveys with 1·9 million participants. Lancet Glob Health 2018
+
+#===
+# EXTRACTING TABLE FROM PDF.
+#===
 
 pdf_file <- file.path("data/country_prevs.pdf")
 
@@ -78,19 +98,9 @@ colnames(df) <- c("country","both","males","females")
 df$country <- sub("^\\s+", "", df$country)
 class(df$both) <- "numeric"
 
-#== ANALYSIS
-
-library(readxl)
-library(reshape2)
-library(ggplot2)
-library(tidyr)
-library("mc2d")
-library("ggrepel") 
-library(knitr)
-library(dplyr)
-library(rgeos)
-library(rworldmap)
-library(flextable)
+#===
+# MATCHING DATA TO MAP DATA
+#===
 
 centroids <- getMap(resolution="low")        # map data.
 centroids <- as.data.frame(gCentroid(centroids, byid=TRUE)) # generate centroids data frame
@@ -109,13 +119,18 @@ df <- df %>% mutate(country = recode(country,
                                      "Republic of Moldova" = "Moldova",
                                      "Viet Nam" = "Vietnam",
                                      "Republic of Korea" = "South Korea",
-                                     "Congo" = "Democratic Republic of the Congo"))
+                                     "Congo" = "Democratic Republic of the Congo",
+                                     "Cote d'Ivoire"= "Ivory Coast",
+                                     "Iran (Islamic Republic of)" = "Iran",
+                                     "Trinidad and Tobago" = "Trinidad"))
 
 
 map.vsly <- left_join(map.world, df, by = c('region' = 'country')) 
 
 
-#== CREATING THE PLOT
+#===
+# CREATING A COLOURCODED MAP
+#===
 
 ditch_the_axes <- theme(
   axis.text = element_blank(),
@@ -129,24 +144,21 @@ ditch_the_axes <- theme(
 plot1 <- (ggplot(data= map.vsly, 
        aes(x = long, y = lat, group = group)) +
             
-            geom_polygon(aes(fill = both),
+            geom_polygon(aes(fill = 1-both),
                          colour="aliceblue",
                          lty=4) +
-            
-            #scale_fill_gradientn(colours = gray.colors(n=20,start = 0.9,end = 0.5), 
-            #                     breaks = seq(0,200,10),
-            #                     aes(VSLY),
-            #                     na.value = NA) +
-            #
-            #coord_fixed(xlim = c(-20, 70),  
-            #            ylim = c(30, 70), 
-            #            ratio = 1.3) +
-            #
+         
+            scale_fill_continuous(name = "% inactive") +
+         
+            labs(title = "Country prevalence of insufficient physical activity", 
+              subtitle = "Age standardised to the WHO Standard Population, 2016.", 
+              caption = "Source: Guthold R et al. (2018) Appendix 5") +
+
             ditch_the_axes +
             
-            theme(legend.position = c(0.1,0.1),
+            theme(legend.position = c(0.1,0.2),
                   legend.background = element_rect(fill = "aliceblue"),
-                  legend.title = element_blank(),
+                  #legend.title = element_blank(),
                   panel.background = element_rect(fill = "aliceblue"),
                   legend.key.width = unit(0.5,"cm"))
 )
