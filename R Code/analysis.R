@@ -26,8 +26,21 @@ library(tidyverse)
 library(dplyr)
 library(Rcpp)      # so can read from excel.
 
-df <- read.csv(file = "data/guthold.csv")
-m.c.dists <- read.csv("data/distributions.csv",row.names = 1)
+df <- read.csv(file = "data/guthold.csv",stringsAsFactors = FALSE,row.names = 1)%>% 
+          mutate(country = recode(country,  "United Kingdom" = 'UK',
+                                            "Russian Federation" = "Russia",
+                                            "United States of America" = "USA",
+                                            "United Republic of Tanzania" = "Tanzania",
+                                            "Venezuela (Bolivarian Republic of)" = "Venezuela",
+                                            "Republic of Moldova" = "Moldova",
+                                            "Viet Nam" = "Vietnam",
+                                            "Republic of Korea" = "South Korea",
+                                            "Congo" = "Democratic Republic of the Congo",
+                                            "Cote d'Ivoire"= "Ivory Coast",
+                                            "Iran (Islamic Republic of)" = "Iran",
+                                            "Trinidad and Tobago" = "Trinidad"))
+
+m.c.dists <- read.csv("data/distributions.csv",row.names = 1,check.names=FALSE)
 
 # In the example below I use a daily 10 minute increase in walking wordwide.
 # This gives a tidy example from which to estimate the benefits.
@@ -35,6 +48,9 @@ m.c.dists <- read.csv("data/distributions.csv",row.names = 1)
 #===
 # CREATE RELATIVE RISKS FOR EACH COUNTRY
 #===
+
+# heat methodology - reduction in risk is very small
+rr.10walk <- 1 - (1 - 0.89) * (70/168)
 
 # get dose response relationship for mortality, from published paper by Aram et al. 2015
 
@@ -55,7 +71,7 @@ for(c in colnames(m.c.dists)){
                      rule = 2)$y
 }
 
-# increase the MET-mins of the population:
+# increase the MET-mins of the population: in this case by 210, assuming walking a total of 70mins at 3mets.
 increase <- 210
 
 rr.metmins.new <- rr.metmins
@@ -85,8 +101,112 @@ lines(rr.metmins.new$Australia)
 # ESTIMATE MORTALITY REDUCTION
 #===
 #1. Load age standardised overall mortality rates by country.
+# problem, rates are linked to ISOcodes.
+
+heat.mort <- read.csv("data/mortality_rates.txt",header = TRUE)[,c(1,2,12,13)] %>%
+                spread(key = age_group,value = value_heatdata) %>% 
+                rename(country = country_name_heat,
+                       ISO_Code = iso3,
+                       age2044  = '20-44',
+                       age2064  = "20-64",
+                       age2074  = '20-74',
+                       age4564  = '45-64',
+                       age4574  = '45-74') %>%
+                mutate(country = recode(country,  
+                                       'United Kingdom' = 'UK',
+                                       "Russian Federation" = "Russia",
+                                       "United States of America" = "USA",
+                                       "United Republic of Tanzania" = "Tanzania",
+                                       "Venezuela (Bolivarian Republic of)" = "Venezuela",
+                                       "Republic of Moldova" = "Moldova",
+                                       "Viet Nam" = "Vietnam",
+                                       "Republic of Korea" = "South Korea",
+                                       "Congo" = "Democratic Republic of the Congo",
+                                       "Cote d'Ivoire"= "Ivory Coast",
+                                       "Iran (Islamic Republic of)" = "Iran",
+                                       "Trinidad and Tobago" = "Trinidad"))
+
+# add in HEAT VSL measure
+vsl <- read.csv("data/vsl_heat.csv")[,c(1,3)]
+colnames(vsl) <- c('ISO_Code','VSL')
+heat.mort <- merge(heat.mort,vsl)
+
+merged <- merge(x = df,y = heat.mort) # new dataframe with added data.
+merged$drf <- NA
+merged$lin <- NA
+
+countries <- intersect(merged$country,colnames(m.c.dists))
 #2. Estimate reductions in deaths per year.
 #3. Value according the VSL methodology used by HEAT.
+
+
+for(x in 1:length(countries)){
+  temp.country <- countries[x]
+  risk.change <- rr.metmins[,temp.country] - rr.metmins.new[,temp.country]
+  merged$drf[x] <- mean(risk.change * merged$age2074[merged$country==temp.country])
+  merged$lin[x] <- (1-rr.10walk)*merged$age2074[merged$country==temp.country]
+}
+
+# the dose response relationship is yielding higher estimates, probably because of the extreme effect on inactive
+# people at the start of the dose response function.
+hist(merged$drf/merged$lin) 
+
+# I can then use the VSL from HEAT to estimate monetary benefit of this.
+merged$nmb <- merged$drf * merged$VSL
+       
+#===
+# PLOTS
+#===
+
+#===
+# PLOT IN GGPLOT THE INCREASE.
+#===
+map.world <- map_data('world')
+
+map <- left_join(map.world, merged, by = c('region' = 'country')) 
+
+plot1 <- (ggplot(data= map, 
+                 aes(x = long, y = lat, group = group)) +
+            
+            geom_polygon(aes(fill = nmb/100000),
+                         colour="aliceblue",
+                         lty=4) +
+            
+            scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
+            
+            labs(title = "Monetary Benefit of 10mins of walking, Europe (2016)", 
+                 subtitle = "Assuming additional 10mins per day per person", 
+                 caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
+
+            coord_fixed(xlim = c(-20, 70),  
+                        ylim = c(30, 70), 
+                        ratio = 1.3) +
+            
+            theme(legend.position = c(0.1,0.2),
+                  legend.background = element_rect(fill = "aliceblue"),
+                  #legend.title = element_blank(),
+                  panel.background = element_rect(fill = "aliceblue"),
+                  legend.key.width = unit(0.5,"cm"),
+                  axis.text = element_blank(),
+                  axis.line = element_blank(),
+                  axis.ticks = element_blank(),
+                  panel.border = element_blank(),
+                  panel.grid = element_blank(),
+                  axis.title = element_blank())
+)
+
+pdf("figures/da.per100k.drf.pdf")
+print(plot1)     # Plot 1 --> in the first page of PDF
+dev.off() 
+
+
+
+
+
+
+#===
+# ARCHIVE
+#===
 
 
 
@@ -136,7 +256,7 @@ plot1 <- (ggplot(data= map.vsly,
             
             labs(title = "Deaths averted by walking intervention", 
                  subtitle = "Per 100,000 people, assuming additional 10mins per day per person.", 
-                 caption = "Sources: Various") +
+                 caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
             
             ditch_the_axes +
             

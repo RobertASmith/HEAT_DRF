@@ -37,7 +37,7 @@ centroids <- as.data.frame(gCentroid(centroids, byid=TRUE)) # generate centroids
 centroids$country <- rownames(centroids)
 
 map.world <- map_data('world')
-map.world$region %>% unique
+#map.world$region %>% unique
 anti_join(df, map.world, by = c('country' = 'region'))
 
 df <- df %>% mutate(country = recode(country,  
