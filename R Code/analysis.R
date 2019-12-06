@@ -1,28 +1,30 @@
 #===
-# setup
+# SETUP
 #===
 
 rm(list=ls())
-library("tidyverse")
-library("stringr")
-library("pdftools")
-library(readxl)
+library(tidyverse)
+library(stringr)
+library(pdftools)
 library(reshape2)
 library(ggplot2)
 library(tidyr)
-library("mc2d")
-library("ggrepel") 
+library(mc2d)
+library(ggrepel) 
 library(knitr)
 library(dplyr)
 library(rgeos)
 library(rworldmap)
 library(flextable)
-library("viridis")
+library(viridis)
 library(rlang)     #ensures can read from excel
 library(readxl)    # Ensure can read from excel
 library(foreign)   # Foreign Package ensures that read.dta works.
-library(tidyverse)
 library(Rcpp)      # so can read from excel.
+
+#===
+# LOAD DATA
+#===
 
 df <- read.csv(file = "data/guthold.csv",stringsAsFactors = FALSE,row.names = 1)%>% 
           mutate(country = recode(country,  "United Kingdom" = 'UK',
@@ -38,7 +40,8 @@ df <- read.csv(file = "data/guthold.csv",stringsAsFactors = FALSE,row.names = 1)
                                             "Iran (Islamic Republic of)" = "Iran",
                                             "Trinidad and Tobago" = "Trinidad"))
 
-m.c.dists <- read.csv("data/distributions.csv",row.names = 1,check.names=FALSE)
+metmins <- read.csv("data/distributions.csv",row.names = 1,check.names=FALSE)
+
 gen.perc  <- read.csv("data/general_dist.csv",row.names = 1,check.names=FALSE) %>%
                 mutate(name = seq(0.01,1,0.01))
 
@@ -59,30 +62,17 @@ temp <- data.frame(RR = c(1,0.8,0.69,0.63,0.61,0.61),
           mutate(METminswk = METhwk*60,
                  METminssq = METminswk^2)
 
-#====
-# USE GENERAL DISTRIBUTION TO ASSIGN MET-MINS
-#====
-
-# assign these met mins to the percentiles of PA for each country.
-metmins <-  m.c.dists  ; metmins[,] <- NA    # same dimensions as m.c.dists but clear data to NA
-#plot(metmins[,c])
-for(c in colnames(m.c.dists)){
-  # for each country, estimate met-mins given percentiles of PA relative to general distribution.
-metmins[,c] <- approx(x = m.c.dists[,c],
-                     y = gen.perc$value,
-                     method = "linear",
-                     xout = gen.perc$name,
-                     rule = 2)$y
-#lines(metmins[,c])
-}
-
+plot(x = 1:50, 
+     y = predict(loess(formula = RR~METhwk,data = temp),
+                           newdata = data.frame(METhwk=1:50))
+     )
 #====
 # ESTIMATE RELATIVE RISKS FROM MET-MINS DISTRIBUTION.
 #====
 
-rr.metmins <-  m.c.dists  ; rr.metmins[,] <- NA    # initialise to same rows etc again.
+rr.metmins <- metmins  ; rr.metmins[,] <- NA    # initialise to same rows etc again.
 
-for(c in colnames(m.c.dists)){
+for(c in colnames(metmins)){
 # the approx function estimates where within the dose response function each percentile is, assigns appropriate relative risk. 
   rr.metmins[,c] <- approx(x = temp$METminswk,
                      y=temp$RR,
@@ -99,7 +89,7 @@ for(c in colnames(m.c.dists)){
 increase <- 210
 rr.metmins.new <- rr.metmins  ; rr.metmins.new[,] <- NA   # initialise matrix
 
-for(c in colnames(m.c.dists)){
+for(c in colnames(rr.metmins.new)){
 # use the old distributions plus 210 to estimat the new relative risk functions.  
   rr.metmins.new[,c] <- approx(x = temp$METminswk,
                            y=temp$RR,
@@ -109,16 +99,25 @@ for(c in colnames(m.c.dists)){
 }
 
 #===
-#PLOT THIS CHANGE
+#PLOT THIS CHANGE before and after
 #===
 
-plot(rr.metmins$Australia,type = "l")
-for(c in 1:ncol(m.c.dists)){
-  lines(rr.metmins[,c],col=c)
-}
+pdf("figures/RRBeforeAfter.pdf")
 
-plot(rr.metmins$Australia,type = "l") # before
-lines(rr.metmins.new$Australia)
+plot(rr.metmins$Australia,
+     type = "l",
+     xlab = "Percentile",
+     ylab = "Relative Risk",
+     main = "Relative Risks of Mortality Before & After \n 10min increase in walking, Australia",
+     lty = 1)
+legend(x = 70,y = 1,
+       legend = c("Before","After"),
+       lty = c(1,2),box.lwd = NA,cex=0.7)
+
+lines(rr.metmins.new$Australia,lty = 2)
+
+dev.off() 
+
 
 #===
 # ESTIMATE MORTALITY REDUCTION
@@ -150,19 +149,17 @@ heat.mort <- read.csv("data/mortality_rates.txt",header = TRUE)[,c(1,2,12,13)] %
                                        "Trinidad and Tobago" = "Trinidad"))
 
 # add in HEAT VSL measure
-vsl <- read.csv("data/vsl_heat.csv")[,c(1,3)]
-colnames(vsl) <- c('ISO_Code','VSL')
-heat.mort <- merge(heat.mort,vsl)
+vsl <- read.csv("data/vsl_heat.csv")[,c(1,3)] # read in value of statistical life estimates
+colnames(vsl) <- c('ISO_Code','VSL')          # change the column names, just want ISO_Code and VSL
+heat.mort <- merge(heat.mort,vsl)             # Merge the mortality rates and VSL measures
 
-merged <- merge(x = df,y = heat.mort) # new dataframe with added data.
-merged$drf <- NA
-merged$lin <- NA
+merged <- merge(x = df,y = heat.mort)         # Merge githuld data with heat data.
+merged$drf <- NA                              # create column for dose response estimate net benefit
+merged$lin <- NA                              # create column for linear response estimate net benefit
 
-countries <- intersect(merged$country,colnames(m.c.dists))
-#2. Estimate reductions in deaths per year.
-#3. Value according the VSL methodology used by HEAT.
+countries <- intersect(merged$country,colnames(metmins))   # identify countries which can analyse
 
-
+# 2. Estimate reductions in deaths per year.
 for(x in 1:length(countries)){
   temp.country <- countries[x]
   risk.change <- rr.metmins[,temp.country] - rr.metmins.new[,temp.country]
@@ -172,35 +169,94 @@ for(x in 1:length(countries)){
 
 # the dose response relationship is yielding higher estimates, probably because of the extreme effect on inactive
 # people at the start of the dose response function.
-hist(merged$drf/merged$lin) 
+merged <- merged %>% rename(PIAP = both)
 
-# I can then use the VSL from HEAT to estimate monetary benefit of this.
-merged$nmb <- merged$drf * merged$VSL
-       
+pdf("figures/relativeresults.pdf")
+
+ggplot(data = merged,
+       aes(x=lin,y=drf,col = PIAP))+
+  theme_classic()+
+  geom_point()+
+  geom_abline(slope = 1)+
+  annotate(geom="text", x=40, y=40, 
+           label="Equality", color="black")+
+  labs(title = "Annual death's averted per 100,000: current method vs Non-linear DRF",
+       caption = "Data Sources: WHO Mort, GBD Pop, HEAT VSL", 
+       x = "HEAT method ", 
+       y = "Non-linear DRF")+
+  #xlim(0, 150) + ylim(0,150)+
+  geom_label_repel(data = as.data.frame(merged), 
+                   label = merged$country, 
+                   size = 2)#,
+                   #nudge_x = 2, nudge_y = -5,
+                   #direction = "y",
+                   #segment.color = "blue",colour = "blue")+
+  #theme(legend.position = c(0.9, 0.2))+
+  NULL
+dev.off() 
+
+#===
+# MONETARY BENEFIT estimate monetary benefit for nmb and lin responses
+#===
+
+merged$nmb_drf <- merged$drf * merged$VSL
+merged$nmb_lin <- merged$lin * merged$VSL
+
+
+    
 #===
 # PLOTS
 #===
 
-#===
-# PLOT IN GGPLOT THE INCREASE.
-#===
 map.world <- map_data('world')
 
 map <- left_join(map.world, merged, by = c('region' = 'country')) 
 
+# plot 1 net monetary benefit of dose response function
 plot1 <- (ggplot(data= map, 
                  aes(x = long, y = lat, group = group)) +
             
-            geom_polygon(aes(fill = nmb/100000),
+            geom_polygon(aes(fill = nmb_drf/100000),
                          colour="aliceblue",
                          lty=4) +
             
-            scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
+            #scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
+            scale_fill_viridis(discrete=FALSE,name = "USD (2016)",limits = c(0,1000)) +
             
-            labs(title = "Monetary Benefit of 10mins of walking, Europe (2016)", 
-                 subtitle = "Assuming additional 10mins per day per person", 
+            labs(title = "Dose Response Function", 
+                 subtitle = "Annual Monetary Benefit of 10mins of walking per capita, Europe (2016)", 
                  caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
 
+            coord_fixed(xlim = c(-20, 70),  
+                        ylim = c(30, 70), 
+                        ratio = 1.3) +
+            
+            theme(legend.position = c(0.1,0.2),
+                  legend.background = element_rect(fill = "aliceblue"),
+                  #legend.title = element_blank(),
+                  panel.background = element_rect(fill = "aliceblue"),
+                  legend.key.width = unit(0.5,"cm"),
+                  axis.text = element_blank(),
+                  axis.line = element_blank(),
+                  axis.ticks = element_blank(),
+                  panel.border = element_blank(),
+                  panel.grid = element_blank(),
+                  axis.title = element_blank())            )
+
+# plot 2 net monetary benefit of linear risk function
+plot2 <- (ggplot(data= map, 
+                 aes(x = long, y = lat, group = group)) +
+            
+            geom_polygon(aes(fill = nmb_lin/100000),
+                         colour="aliceblue",
+                         lty=4) +
+            
+            #scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
+            scale_fill_viridis(discrete=FALSE,name = "USD (2016)",limits = c(0,1000)) +
+            labs(title = "Linear Function", 
+                 subtitle = "Annual Monetary Benefit per person of 10mins of walking per capita, Europe (2016)", 
+                 caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
+            
             coord_fixed(xlim = c(-20, 70),  
                         ylim = c(30, 70), 
                         ratio = 1.3) +
@@ -218,8 +274,10 @@ plot1 <- (ggplot(data= map,
                   axis.title = element_blank())
 )
 
-pdf("figures/da.per100k.drf.pdf")
+
+pdf("figures/NMB_IncreasePA.pdf")
 print(plot1)     # Plot 1 --> in the first page of PDF
+print(plot2)     # Plot 2 --> in the second page of PDF
 dev.off() 
 
 
@@ -227,103 +285,12 @@ dev.off()
 
 
 
-#===
-# ARCHIVE
-#===
 
 
 
 
-# increase in MET-mins.
-increase <- 210      # based on 10 mins extra walking per day.
-walk.metmins <- 1500 # we assume the heat reference met-mins is 1500.
-
-# initial matrix of relative risk, capped at 0.7
-rr.matrix.init     <- 1 - (1 - 0.89) * (m.c.dists/walk.metmins)
-rr.matrix.init[rr.matrix.init <0.7]     <- 0.7
-
-# new matrix of relativ risk, capped at 0.7
-m.c.dists.new      <- m.c.dists + increase
-rr.matrix.new      <- 1 - (1 - 0.89) * (country.matrix.new/walk.metmins)
-rr.matrix.new[rr.matrix.new <0.7]     <- 0.7
-
-# plot new populations
-plot(rr.matrix.init[,10],type = "l")
-lines(rr.matrix.new[,10],col="blue")
-
-# using single pop mortality
-mort.rate <- 550 / 100000
-
-# multiply this by mortality rate to estimate risks for each.
-risk.init <- rr.matrix.init * mort.rate
-risk.new  <- rr.matrix.new * mort.rate
-
-# estimate the number of deaths averted per 100,000 per year.
-da.hundk  <- (risk.init - risk.new) * 100000
-
-df$saved  <-  colMeans(da.hundk)
-
-#===
-# PLOT IN GGPLOT THE INCREASE.
-#===
-map.vsly <- left_join(map.world, df, by = c('region' = 'country')) 
-
-plot1 <- (ggplot(data= map.vsly, 
-                 aes(x = long, y = lat, group = group)) +
-            
-            geom_polygon(aes(fill = saved),
-                         colour="aliceblue",
-                         lty=4) +
-            
-            scale_fill_continuous(name = "Deaths Averted") +
-            
-            labs(title = "Deaths averted by walking intervention", 
-                 subtitle = "Per 100,000 people, assuming additional 10mins per day per person.", 
-                 caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
-            
-            ditch_the_axes +
-            
-            theme(legend.position = c(0.1,0.2),
-                  legend.background = element_rect(fill = "aliceblue"),
-                  #legend.title = element_blank(),
-                  panel.background = element_rect(fill = "aliceblue"),
-                  legend.key.width = unit(0.5,"cm"))
-)
-
-pdf("figures/livessaved.pdf")
-print(plot1)     # Plot 1 --> in the first page of PDF
-dev.off() 
-
-
-#===
-# ARCHIVE
-#===
-
-# plot the old density and new density
-plot(density(init.pop))
-lines(density(new.pop), col = "red")
-
-lm.rr <- lm(formula = RR ~ METminswk + METminssq ,data = temp)
-
-# plot linear model results
-fake <- data.frame(METminswk = seq(1,1800,100),
-                   METminssq = seq(1,1800,100)^2)
-fake$rr <- predict(object = lm.rr,
-                   newdata = fake)
-
-plot(temp$METminswk,temp$RR)
-lines(x=fake$METminswk,y = fake$rr )
 
 
 
-plot(y = country.matrix[,"UK"], x=1:100,type= "l")
-lines(y = country.matrix[,"Ukraine"], x=1:100,col="red")
 
-
-plot(density(country.matrix[,"UK"]))
-lines(density(country.matrix[,"Ukraine"]),col="red")
-lines(density(country.matrix[,"Vietnam"]),col="blue")
-lines(density(country.matrix[,"Niger"]),col="green")
-
-Niger
 

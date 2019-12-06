@@ -113,10 +113,32 @@ hsedata <- read.dta("C:/Users/Robert/Google Drive/Model/Data/Raw/HSE15/hse2015ai
                 metmins = TotmWalD*mets[1] + MPAmWk*mets[2] + VPAmWk*mets[3], # calculate metmins using: mins * mets for each activity 
                 cons_metmins = ifelse(metmins>10000, 10000, metmins)) # constrain to 10,000
 
-# create percentiles
+#ggplot(hsedata,aes(metmins,fill = "red")) +
+#geom_density(adjust = 1.5) +
+#  xlim(0,10000) + 
+#  theme_classic()+
+#  labs(title = "Generic Physical Activity Distribution",
+#       subtitle = "",
+#       caption = "Data from the Health Survey for England 2015",
+#       x = "Weekly MET-mins",
+#       y = "Density") +
+#  guides(fill=FALSE)
+
+#====
+# Create percentiles for English (Generic) Distribution
+#====
+
 gen.perc <- hsedata %>% 
   summarise(list(enframe(quantile(cons_metmins, probs= c(seq(0.01,1,0.01)))))) %>%  # create quintiles for each group
-  unnest 
+  unnest %>% mutate(name = seq(0.01,1,0.01)) 
+
+#ggplot(gen.perc)+
+#  geom_line(aes(x = name*100, y = value))+
+#  labs(title = "Physical Activity by Percentile of Distribution",
+#       caption = "Source: HSE 2015",
+#       x = "Percentile of population",
+#       y = "Weekly MET-mins")+
+#  theme_classic()
 
 #===
 # DISTRIBUTION PHYSICAL ACTIVITY EVERY COUNTRY.
@@ -137,7 +159,25 @@ for(c in 1:ncol(country.matrix)){ # country loop
   } # percentile loop
 }
 
-write.csv(x = country.matrix,file = "data/distributions.csv")
+#====
+# USE GENERAL DISTRIBUTION TO ASSIGN MET-MINS
+#====
+
+# assign these met mins to the percentiles of PA for each country.
+metmins <-  country.matrix  ; metmins[,] <- NA    # same dimensions as m.c.dists but clear data to NA
+#plot(metmins[,c])
+for(c in colnames(country.matrix)){
+  # for each country, estimate met-mins given percentiles of PA relative to general distribution.
+  metmins[,c] <- approx(x = country.matrix[,c],
+                        y = gen.perc$value,
+                        method = "linear",
+                        xout = as.numeric(gen.perc$name),
+                        rule = 2)$y
+  #lines(metmins[,c])
+}
+
+
+write.csv(x = metmins,file = "data/distributions.csv")
 write.csv(x = gen.perc, file = "data/general_dist.csv")
 
 
@@ -150,3 +190,17 @@ write.csv(x = gen.perc, file = "data/general_dist.csv")
 # plot(country.matrix[2:101,"Ukraine"],gen.perc$value)
 # lines(seq(0.01,1,by = 0.01),gen.perc$value)
 # abline(h = 600,col="red")
+
+#plot distributions
+metmins_long <- melt(metmins,
+                     varnames = c("percentile","country"),
+                     value.name = "metmins")
+ggplot(metmins_long[metmins_long$country =="Armenia",])+
+  geom_line(aes(x = percentile, y = metmins,col = country))+
+  theme_classic()+
+  labs(title = "Physical Activity in 10 countries",
+       subtitle = "Using method by Hafner et al. (2019)",
+       caption = "Sources: HSE 2015, Guthold et al. 2018",
+       x = "Percentile",
+       y = "Weekly MET-mins") +
+  guides(fill=FALSE)
