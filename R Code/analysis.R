@@ -21,9 +21,7 @@ library("viridis")
 library(rlang)     #ensures can read from excel
 library(readxl)    # Ensure can read from excel
 library(foreign)   # Foreign Package ensures that read.dta works.
-library(ggplot2)  # GGplot Package
 library(tidyverse)
-library(dplyr)
 library(Rcpp)      # so can read from excel.
 
 df <- read.csv(file = "data/guthold.csv",stringsAsFactors = FALSE,row.names = 1)%>% 
@@ -41,6 +39,8 @@ df <- read.csv(file = "data/guthold.csv",stringsAsFactors = FALSE,row.names = 1)
                                             "Trinidad and Tobago" = "Trinidad"))
 
 m.c.dists <- read.csv("data/distributions.csv",row.names = 1,check.names=FALSE)
+gen.perc  <- read.csv("data/general_dist.csv",row.names = 1,check.names=FALSE) %>%
+                mutate(name = seq(0.01,1,0.01))
 
 # In the example below I use a daily 10 minute increase in walking wordwide.
 # This gives a tidy example from which to estimate the benefits.
@@ -59,34 +59,57 @@ temp <- data.frame(RR = c(1,0.8,0.69,0.63,0.61,0.61),
           mutate(METminswk = METhwk*60,
                  METminssq = METminswk^2)
 
+#====
+# USE GENERAL DISTRIBUTION TO ASSIGN MET-MINS
+#====
+
 # assign these met mins to the percentiles of PA for each country.
-rr.metmins <- m.c.dists
+metmins <-  m.c.dists  ; metmins[,] <- NA    # same dimensions as m.c.dists but clear data to NA
+#plot(metmins[,c])
+for(c in colnames(m.c.dists)){
+  # for each country, estimate met-mins given percentiles of PA relative to general distribution.
+metmins[,c] <- approx(x = m.c.dists[,c],
+                     y = gen.perc$value,
+                     method = "linear",
+                     xout = gen.perc$name,
+                     rule = 2)$y
+#lines(metmins[,c])
+}
+
+#====
+# ESTIMATE RELATIVE RISKS FROM MET-MINS DISTRIBUTION.
+#====
+
+rr.metmins <-  m.c.dists  ; rr.metmins[,] <- NA    # initialise to same rows etc again.
 
 for(c in colnames(m.c.dists)){
-
+# the approx function estimates where within the dose response function each percentile is, assigns appropriate relative risk. 
   rr.metmins[,c] <- approx(x = temp$METminswk,
                      y=temp$RR,
                      method = "linear",
-                     xout = m.c.dists[,c],
+                     xout = metmins[,c],
                      rule = 2)$y
 }
 
+#====
+# ESTIMATE EFFECT OF INCREASING MET-MINS BY X AMOUNT ON RELATIVE RISKS.
+#====
+
 # increase the MET-mins of the population: in this case by 210, assuming walking a total of 70mins at 3mets.
 increase <- 210
-
-rr.metmins.new <- rr.metmins
+rr.metmins.new <- rr.metmins  ; rr.metmins.new[,] <- NA   # initialise matrix
 
 for(c in colnames(m.c.dists)){
-  
+# use the old distributions plus 210 to estimat the new relative risk functions.  
   rr.metmins.new[,c] <- approx(x = temp$METminswk,
                            y=temp$RR,
                            method = "linear",
-                           xout = m.c.dists[,c] + increase,
+                           xout = metmins[,c] + increase,
                            rule = 2)$y
 }
 
 #===
-# plots showing this
+#PLOT THIS CHANGE
 #===
 
 plot(rr.metmins$Australia,type = "l")

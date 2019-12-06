@@ -21,7 +21,6 @@ library("viridis")
 library(rlang)     #ensures can read from excel
 library(readxl)    # Ensure can read from excel
 library(foreign)   # Foreign Package ensures that read.dta works.
-library(ggplot2)  # GGplot Package
 library(tidyverse)
 library(dplyr)
 library(Rcpp)      # so can read from excel.
@@ -49,7 +48,7 @@ df <- df %>% mutate(country = recode(country,
                                      "Republic of Moldova" = "Moldova",
                                      "Viet Nam" = "Vietnam",
                                      "Republic of Korea" = "South Korea",
-                                     "Congo" = "Democratic Republic of the Congo",
+                                     #"Congo" = "Democratic Republic of the Congo",
                                      "Cote d'Ivoire"= "Ivory Coast",
                                      "Iran (Islamic Republic of)" = "Iran",
                                      "Trinidad and Tobago" = "Trinidad"))
@@ -134,8 +133,20 @@ for(c in 1:ncol(country.matrix)){ # country loop
   country <- df$country[c]
   
   for(x in 2:100){ # percentile loop
-    country.matrix[x,country] <- (gen.perc$value[x] - gen.perc$value[x-1]) * (100-df$both[df$country == country][1])/(100-df$both[df$country == "UK"]) + country.matrix[x-1,country]
+    country.matrix[x,country] <- 0.01 * df$both[df$country == country]/df$both[df$country == "UK"] + country.matrix[x-1,country]
   } # percentile loop
 }
 
 write.csv(x = country.matrix,file = "data/distributions.csv")
+write.csv(x = gen.perc, file = "data/general_dist.csv")
+
+
+# TESTING THIS TO ENSURE CORRECT
+
+# country <- "Ukraine"
+# paste(country,"percent inactive"," ",round(country.matrix[,country][33],digits = 2),"vs Githuld:",df$both[df$country == country])
+# 
+# df$both[df$country == "UK"]
+# plot(country.matrix[2:101,"Ukraine"],gen.perc$value)
+# lines(seq(0.01,1,by = 0.01),gen.perc$value)
+# abline(h = 600,col="red")
