@@ -96,3 +96,41 @@ lines(density(country.matrix[,"Niger"]),col="green")
 
 Niger
 
+#                     METminssq = METminswk^2)
+#temp <- data.frame(RR = c(1,0.8,0.69,0.63,0.61,0.61),
+#                   METhwk = c(0,3.75,11.25,18.75,31.25,57.5))%>%
+#              mutate(METminswk = METhwk*60,
+#                     METminssq = METminswk^2)
+#
+#kelly.rr.walk <- data.frame(METhwk = c(0,8,22.5,50),
+#                            rr.walk = c(1,0.91,0.88,0.80)) %>% 
+#                        mutate(metminswk = METhwk*60)
+#kelly.rr.cycle <- data.frame(METhwk = c(0,11.5,32,65),
+#                             rr.walk = c(1,0.83,0.76,0.70)) %>% 
+#                        mutate(K.METmwk = METhwk*60)
+
+#plot(x = 1:50, 
+#     y = predict(loess(formula = RR~METhwk,data = temp),
+#                           newdata = data.frame(METhwk=1:50))
+#     )
+
+
+#===
+#PLOT THIS CHANGE before and after
+#===
+#
+# pdf("figures/RRBeforeAfter.pdf")
+#
+# plot(rr.metmins$Australia,
+#      type = "l",
+#      xlab = "Percentile",
+#      ylab = "Relative Risk",
+#      main = "Relative Risks of Mortality Before & After \n 10min increase in walking, Australia",
+#      lty = 1)
+# legend(x = 70,y = 1,
+#        legend = c("Before","After"),
+#        lty = c(1,2),box.lwd = NA,cex=0.7)
+# 
+# lines(rr.metmins.new$Australia,lty = 2)
+#
+# dev.off() 

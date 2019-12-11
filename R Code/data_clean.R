@@ -106,5 +106,18 @@ colnames(df) <- c("country","both","males","females")
 df$country <- sub("^\\s+", "", df$country)
 class(df$both) <- "numeric"
 
+df <- df %>% mutate(country = recode(country,  "United Kingdom" = 'UK',
+                               "Russian Federation" = "Russia",
+                               "United States of America" = "USA",
+                               "United Republic of Tanzania" = "Tanzania",
+                               "Venezuela (Bolivarian Republic of)" = "Venezuela",
+                               "Republic of Moldova" = "Moldova",
+                               "Viet Nam" = "Vietnam",
+                               "Republic of Korea" = "South Korea",
+                               "Congo" = "Democratic Republic of the Congo",
+                               "Cote d'Ivoire"= "Ivory Coast",
+                               "Iran (Islamic Republic of)" = "Iran",
+                               "Trinidad and Tobago" = "Trinidad"))
+
 write.csv(df,file = "data/guthold.csv")
 
