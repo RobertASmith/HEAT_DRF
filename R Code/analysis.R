@@ -62,10 +62,10 @@ temp <- data.frame(RR = c(1,0.8,0.69,0.63,0.61,0.61),
           mutate(METminswk = METhwk*60,
                  METminssq = METminswk^2)
 
-plot(x = 1:50, 
-     y = predict(loess(formula = RR~METhwk,data = temp),
-                           newdata = data.frame(METhwk=1:50))
-     )
+#plot(x = 1:50, 
+#     y = predict(loess(formula = RR~METhwk,data = temp),
+#                           newdata = data.frame(METhwk=1:50))
+#     )
 #====
 # ESTIMATE RELATIVE RISKS FROM MET-MINS DISTRIBUTION.
 #====
@@ -101,22 +101,22 @@ for(c in colnames(rr.metmins.new)){
 #===
 #PLOT THIS CHANGE before and after
 #===
-
-pdf("figures/RRBeforeAfter.pdf")
-
-plot(rr.metmins$Australia,
-     type = "l",
-     xlab = "Percentile",
-     ylab = "Relative Risk",
-     main = "Relative Risks of Mortality Before & After \n 10min increase in walking, Australia",
-     lty = 1)
-legend(x = 70,y = 1,
-       legend = c("Before","After"),
-       lty = c(1,2),box.lwd = NA,cex=0.7)
-
-lines(rr.metmins.new$Australia,lty = 2)
-
-dev.off() 
+#
+#pdf("figures/RRBeforeAfter.pdf")
+#
+#plot(rr.metmins$Australia,
+#     type = "l",
+#     xlab = "Percentile",
+#     ylab = "Relative Risk",
+#     main = "Relative Risks of Mortality Before & After \n 10min increase in walking, Australia",
+#     lty = 1)
+#legend(x = 70,y = 1,
+#       legend = c("Before","After"),
+#       lty = c(1,2),box.lwd = NA,cex=0.7)
+#
+#lines(rr.metmins.new$Australia,lty = 2)
+#
+#dev.off() 
 
 
 #===
@@ -169,21 +169,48 @@ for(x in 1:length(countries)){
 
 # the dose response relationship is yielding higher estimates, probably because of the extreme effect on inactive
 # people at the start of the dose response function.
-merged <- merged %>% rename(PIAP = both)
+merged <- merged %>% rename(IPAP = both)
+
+#===
+# MONETARY BENEFIT estimate monetary benefit for nmb and lin responses
+#===
+
+merged$nmb_drf <- merged$drf * merged$VSL
+merged$nmb_lin <- merged$lin * merged$VSL
+merged$relative <- (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin
+
+#===
+# STORE RESULTS
+#===
+
+results.table <- data.frame(ISO_Code = merged$ISO_Code,
+                            country  = merged$country,
+                            IPAP     = merged$IPAP,
+                            S1_DA_drf= merged$drf,
+                            S1_DA_lin= merged$lin,
+                            S1_NMB_drf=merged$nmb_drf,
+                            S1_NMB_lin=merged$nmb_lin)
+
+
+#==================================== PLOTS ================================
+
+#=== 
+# DEATHS AVERTED PLOT
+#===
 
 pdf("figures/relativeresults.pdf")
 
 ggplot(data = merged,
-       aes(x=lin,y=drf,col = PIAP))+
+       aes(x=lin,y=drf,col = IPAP))+
   theme_classic()+
   geom_point()+
   geom_abline(slope = 1)+
   annotate(geom="text", x=40, y=40, 
            label="Equality", color="black")+
-  labs(title = "Annual death's averted per 100,000: current method vs Non-linear DRF",
+  labs(title = "Annual death's averted per 100,000: Non-linear relationship vs linear relationship",
        caption = "Data Sources: WHO Mort, GBD Pop, HEAT VSL", 
-       x = "HEAT method ", 
-       y = "Non-linear DRF")+
+       x = "linear relationship ", 
+       y = "Non-linear relationship")+
   #xlim(0, 150) + ylim(0,150)+
   geom_label_repel(data = as.data.frame(merged), 
                    label = merged$country, 
@@ -195,17 +222,9 @@ ggplot(data = merged,
   NULL
 dev.off() 
 
-#===
-# MONETARY BENEFIT estimate monetary benefit for nmb and lin responses
-#===
-
-merged$nmb_drf <- merged$drf * merged$VSL
-merged$nmb_lin <- merged$lin * merged$VSL
-
-
     
 #===
-# PLOTS
+# WORLD MAP PLOTS
 #===
 
 map.world <- map_data('world')
@@ -216,23 +235,23 @@ map <- left_join(map.world, merged, by = c('region' = 'country'))
 plot1 <- (ggplot(data= map, 
                  aes(x = long, y = lat, group = group)) +
             
-            geom_polygon(aes(fill = nmb_drf/100000),
+            geom_polygon(aes(fill = relative*100),
                          colour="aliceblue",
                          lty=4) +
             
             #scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
-            scale_fill_viridis(discrete=FALSE,name = "USD (2016)",limits = c(0,1000)) +
+            scale_fill_viridis(discrete=FALSE,name = "% Dif",limits = c(-100,+100)) +
             
-            labs(title = "Dose Response Function", 
-                 subtitle = "Annual Monetary Benefit of 10mins of walking per capita, Europe (2016)", 
-                 caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
+            labs(title = "Dose Response Method vs Linear Method", 
+                 subtitle = "% difference in NMB between non-linear relationship & linear relationship, Europe (2016)", 
+                 caption = "Sources: Nonlinear DRF from Aram et al. 2015, VSL from HEAT") +
 
             coord_fixed(xlim = c(-20, 70),  
                         ylim = c(30, 70), 
                         ratio = 1.3) +
             
             theme(legend.position = c(0.1,0.2),
-                  legend.background = element_rect(fill = "aliceblue"),
+                  legend.background = element_blank(),
                   #legend.title = element_blank(),
                   panel.background = element_rect(fill = "aliceblue"),
                   legend.key.width = unit(0.5,"cm"),
@@ -247,13 +266,13 @@ plot1 <- (ggplot(data= map,
 plot2 <- (ggplot(data= map, 
                  aes(x = long, y = lat, group = group)) +
             
-            geom_polygon(aes(fill = nmb_lin/100000),
+            geom_polygon(aes(fill = nmb_drf/100000),
                          colour="aliceblue",
                          lty=4) +
             
             #scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
             scale_fill_viridis(discrete=FALSE,name = "USD (2016)",limits = c(0,1000)) +
-            labs(title = "Linear Function", 
+            labs(title = "NMB (USD) of 10mins walking using Non-linear Dose Response Function", 
                  subtitle = "Annual Monetary Benefit per person of 10mins of walking per capita, Europe (2016)", 
                  caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
             
@@ -262,7 +281,7 @@ plot2 <- (ggplot(data= map,
                         ratio = 1.3) +
             
             theme(legend.position = c(0.1,0.2),
-                  legend.background = element_rect(fill = "aliceblue"),
+                  legend.background = element_blank(),
                   #legend.title = element_blank(),
                   panel.background = element_rect(fill = "aliceblue"),
                   legend.key.width = unit(0.5,"cm"),
