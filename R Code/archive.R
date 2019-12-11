@@ -1,6 +1,16 @@
 #===
 # ARCHIVE
 #===
+#rr.metmins <- metmins  ; rr.metmins[,] <- NA    # initialise to same rows etc again.
+#
+#for(c in colnames(metmins)){
+## the approx function estimates where within the dose response function each percentile is, assigns appropriate relative risk. 
+#  rr.metmins[,c] <- approx(x = lit.rr$A.METmwk,
+#                     y=lit.rr$A.rr,
+#                     method = "linear",
+#                     xout = metmins[,c],
+#                     rule = 2)$y
+#}
 
 
 # increase in MET-mins.
@@ -134,3 +144,65 @@ Niger
 # lines(rr.metmins.new$Australia,lty = 2)
 #
 # dev.off() 
+
+
+#===
+# ESTIMATE EFFECT OF INCREASING MET-MINS BY X AMOUNT ON RELATIVE RISKS.
+#===
+
+metmins.new <- metmins  # create a new set of met-mins
+
+metmins.new[metmins<600] <- 600 # Change metmins of those lower than 600 mets to 600.
+
+rr.metmins.new <- rr.metmins  ; rr.metmins.new[,] <- NA   # initialise matrix
+
+for(c in colnames(rr.metmins.new)){
+  # use the old distributions plus 210 to estimat the new relative risk functions.  
+  rr.metmins.new[,c] <- approx(x = lit.rr$A.METmwk,
+                               y = lit.rr$A.rr,
+                               method = "linear",
+                               xout = metmins.new[,c],
+                               rule = 2)$y
+}
+
+# heat methodology - reduction in risk is very small
+increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
+rr.S2.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 2 is everyone meeting targets
+
+
+#===
+# ESTIMATE MORTALITY REDUCTION
+#===
+
+# 1. for a list of countries.
+# countries <- intersect(merged$country,colnames(metmins))   # identify countries which can analyse
+merged$drf <- NA                              # create column for dose response estimate net benefit
+merged$lin <- NA                              # create column for linear response estimate net benefit
+
+
+# 2. Estimate reductions in deaths per year.
+for(x in 1:length(countries)){
+  temp.country <- countries[x]
+  risk.change <- rr.metmins[,temp.country] - rr.metmins.new[,temp.country]
+  merged$drf[x] <- mean(risk.change * merged$mortrisk[merged$country==temp.country])
+  merged$lin[x] <- (1-rr.S2.ldrf)*merged$mortrisk[merged$country==temp.country]
+}
+
+#===
+# MONETARY BENEFIT estimate monetary benefit for nmb and lin responses
+#===
+
+merged$nmb_drf  <- merged$drf * merged$VSL
+merged$nmb_lin  <- merged$lin * merged$VSL
+merged$relative <- (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin
+
+#===
+# STORE RESULTS
+#===
+
+results.table$S2_DA_drf  = merged$drf
+results.table$S2_DA_lin  = merged$lin
+results.table$S2_NMB_drf = merged$drf * merged$VSL
+results.table$S2_NMB_lin = merged$lin * merged$VSL
+results.table$S2_NMB_relative = (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin
+

@@ -33,7 +33,7 @@ return(plot)
 # WORLD MAP PLOTS
 #===
 
-f.maprelative <- function(relative = "S1_NMB_relative"){
+f.maprelative <- function(relative = "S1_NMB_relative",title = ""){
   
 map.world <- map_data('world')
 
@@ -50,7 +50,7 @@ plot <- (ggplot(data= map,
             #scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
             scale_fill_viridis(discrete=FALSE,name = "% Dif",limits = c(-100,+100)) +
             
-            labs(title = "Dose Response Method vs Linear Method", 
+            labs(title = paste(title), 
                  subtitle = "% difference in NMB between non-linear relationship & linear relationship, Europe (2016)", 
                  caption = "Sources: Nonlinear DRF from Aram et al. 2015, VSL from HEAT") +
             
@@ -75,7 +75,7 @@ return(plot)
 }
 
 
-f.mapdoseresponse <- function(doseresponse = "S1_NMB_drf"){
+f.mapdoseresponse <- function(doseresponse = "S1_NMB_drf",title = ""){
   
 
 map.world <- map_data('world')
@@ -94,7 +94,7 @@ plot <- (ggplot(data= map,
             
             #scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
             scale_fill_viridis(discrete=FALSE,name = "USD (2016)",limits = c(0,1000)) +
-            labs(title = "NMB (USD) of 10mins walking using Non-linear Dose Response Function", 
+            labs(title = title, 
                  subtitle = "Annual Monetary Benefit per person of 10mins of walking per capita, Europe (2016)", 
                  caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
             

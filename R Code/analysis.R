@@ -24,6 +24,7 @@ library(foreign)   # Foreign Package ensures that read.dta works.
 library(Rcpp)      # so can read from excel.
 
 source(file = "R Code/plotfunctions.R")
+source(file = "R Code/modelfunctions.R")
 #===
 # LOAD & CLEAN DATA
 #===
@@ -110,88 +111,97 @@ lit.rr <- data.frame(A.METhwk = c(0,3.75,11.25,18.75,31.25,57.5),
          K.METmwk.wlk = K.METhwk.wlk*60,
          K.METmwk.cyc = K.METhwk.cyc*60)
 
+#=== INITIALISE
 
-
-#==================== ANALYSIS SCENARIO 1 ==========================
-
-#===
-# ESTIMATE RELATIVE RISKS BEFORE SCENARIO.
-#===
-
-rr.metmins <- metmins  ; rr.metmins[,] <- NA    # initialise to same rows etc again.
-
-for(c in colnames(metmins)){
-# the approx function estimates where within the dose response function each percentile is, assigns appropriate relative risk. 
-  rr.metmins[,c] <- approx(x = lit.rr$A.METmwk,
-                     y=lit.rr$A.rr,
-                     method = "linear",
-                     xout = metmins[,c],
-                     rule = 2)$y
-}
-
-#===
-# ESTIMATE NEW RELATIVE RISKS AFTER SCENARIO 
-#===
-
-metmins.new <- metmins + 210                                  # increase of 210 METs
-rr.metmins.new <- rr.metmins  ; rr.metmins.new[,] <- NA   # initialise matrix
-
-for(c in colnames(rr.metmins.new)){
-# use the old distributions plus 210 to estimat the new relative risk functions.  
-  rr.metmins.new[,c] <- approx(x = lit.rr$A.METmwk,
-                           y = lit.rr$A.rr,
-                           method = "linear",
-                           xout = metmins.new[,c],
-                           rule = 2)$y
-}
-
-#===
-# ESTIMATE MORTALITY REDUCTION
-#===
-
-# heat methodology - reduction in risk is very small
-increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
-rr.S1.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 1 is 10 mins walking per person
-
-
-
-# 1. for a list of countries.
 countries <- intersect(merged$country,colnames(metmins))   # identify countries which can analyse
 merged$drf <- NA                              # create column for dose response estimate net benefit
 merged$lin <- NA                              # create column for linear response estimate net benefit
 
-# 2. Estimate reductions in deaths per year.
-for(x in 1:length(countries)){
-  temp.country <- countries[x]
-  risk.change <- rr.metmins[,temp.country] - rr.metmins.new[,temp.country]
-  merged$drf[x] <- mean(risk.change * merged$mortrisk[merged$country==temp.country])
-  merged$lin[x] <- (1-rr.S1.ldrf)*merged$mortrisk[merged$country==temp.country]
-}
 
-#===
-# MONETARY BENEFIT estimate monetary benefit for nmb and lin responses
-#===
+#==================== ANALYSIS SCENARIO 1 ==========================
 
-merged$nmb_drf  <- merged$drf * merged$VSL
-merged$nmb_lin  <- merged$lin * merged$VSL
-merged$relative <- (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin
+# Estimate BEFORE scenario relative risks
+rr.metmins <- f.getRR(mets = metmins)
 
-#===
-# STORE RESULTS
-#===
+# Change METmins according to scenario
+metmins.new <- metmins + 210
+
+# estimate AFTER scenario relative risks
+rr.metmins.new <- f.getRR(mets = metmins.new)
+
+# estimate change in relative risk in linear model
+increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
+rr.S1.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 1 is 10 mins walking per person
+
+# estimate reductions in deaths per year.
+results <- f.getresults(risk.change.lin = rr.S1.ldrf, df = merged, v.countries = countries)
+
+# store results
 
 results.table <- data.frame(ISO_Code = merged$ISO_Code,
                             country  = merged$country,
                             IPAP     = merged$IPAP,
-                            S1_DA_drf= merged$drf,
-                            S1_DA_lin= merged$lin,
-                            S1_NMB_drf=merged$drf * merged$VSL/100000,
-                            S1_NMB_lin=merged$lin * merged$VSL/100000,
-                            S1_NMB_relative = (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin*100)
+                            S1_DA_drf= results$drf,
+                            S1_DA_lin= results$lin,
+                            S1_NMB_drf= results$drf * merged$VSL/100000,
+                            S1_NMB_lin= results$lin * merged$VSL/100000,
+                            S1_NMB_relative = (results$nmb_drf-results$nmb_lin)/results$nmb_lin*100)
 
 
+#==================== ANALYSIS SCENARIO 2 ==================
 
+# Estimate BEFORE scenario relative risks
+rr.metmins <- f.getRR(mets = metmins)
 
+# Change METmins according to scenario
+metmins.new <- metmins  # create a new set of met-mins equal to old ones
+metmins.new[metmins<600] <- 600 # Change metmins of those lower than 600 mets to 600.
+
+# estimate AFTER scenario relative risks
+rr.metmins.new <- f.getRR(mets = metmins.new)
+
+# estimate change in relative risk in linear model
+increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
+rr.S2.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 1 is 10 mins walking per person
+
+# estimate reductions in deaths per year.
+results <- f.getresults(risk.change.lin = rr.S2.ldrf, df = merged, v.countries = countries)
+
+# store results
+
+results.table$S2_DA_drf       = results$drf
+results.table$S2_DA_lin       = results$lin
+results.table$S2_NMB_drf      = results$drf * merged$VSL/100000
+results.table$S2_NMB_lin      = results$lin * merged$VSL/100000
+results.table$S2_NMB_relative = (results$nmb_drf-results$nmb_lin)/results$nmb_lin*100
+
+#==================== ANALYSIS SCENARIO 3 ====================
+
+# 10% increase in physical activity for the whole population
+
+# Estimate BEFORE scenario relative risks
+rr.metmins <- f.getRR(mets = metmins)
+
+# Change METmins according to scenario
+metmins.new <- metmins*1.1  # create a new set of met-mins 10% higher
+
+# estimate AFTER scenario relative risks
+rr.metmins.new <- f.getRR(mets = metmins.new)
+
+# estimate change in relative risk in linear model
+increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
+rr.S2.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 1 is 10 mins walking per person
+
+# estimate reductions in deaths per year.
+results <- f.getresults(risk.change.lin = rr.S2.ldrf, df = merged, v.countries = countries)
+
+# store results
+
+results.table$S3_DA_drf       = results$drf
+results.table$S3_DA_lin       = results$lin
+results.table$S3_NMB_drf      = results$drf * merged$VSL/100000
+results.table$S3_NMB_lin      = results$lin * merged$VSL/100000
+results.table$S3_NMB_relative = (results$nmb_drf-results$nmb_lin)/results$nmb_lin*100
 
 #==================== PLOTS SCENARIO 1 =============
 
@@ -200,186 +210,38 @@ f.deathsavertedplot(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP"  )
 dev.off() 
 
 pdf("figures/S1_MapRelative.pdf")
-f.maprelative(relative = "S1_NMB_relative")
+f.maprelative(relative = "S1_NMB_relative",title = "Scenario 1: 10 mins additional walking")
 dev.off() 
 
 pdf("figures/S1_DoseResponse.pdf")
-f.mapdoseresponse(doseresponse = "S1_NMB_drf")
+f.mapdoseresponse(doseresponse = "S1_NMB_drf",title = "Scenario 1: 10 mins additional walking")
 dev.off() 
 
-
-#==================== ANALYSIS SCENARIO 2 ==================
-
-#===
-# ESTIMATE RELATIVE RISKS FROM MET-MINS DISTRIBUTION FOR EACH COUNTRY.
-#===
-
-rr.metmins <- metmins  ; rr.metmins[,] <- NA    # initialise to same rows etc again.
-
-for(c in colnames(metmins)){
-  # the approx function estimates where within the dose response function each percentile is, assigns appropriate relative risk. 
-  rr.metmins[,c] <- approx(x = lit.rr$A.METmwk,
-                           y=lit.rr$A.rr,
-                           method = "linear",
-                           xout = metmins[,c],
-                           rule = 2)$y
-}
-
-
-#===
-# ESTIMATE EFFECT OF INCREASING MET-MINS BY X AMOUNT ON RELATIVE RISKS.
-#===
-
-metmins.new <- metmins  # create a new set of met-mins
-
-metmins.new[metmins<600] <- 600 # Change metmins of those lower than 600 mets to 600.
-
-rr.metmins.new <- rr.metmins  ; rr.metmins.new[,] <- NA   # initialise matrix
-
-for(c in colnames(rr.metmins.new)){
-  # use the old distributions plus 210 to estimat the new relative risk functions.  
-  rr.metmins.new[,c] <- approx(x = lit.rr$A.METmwk,
-                               y = lit.rr$A.rr,
-                               method = "linear",
-                               xout = metmins.new[,c],
-                               rule = 2)$y
-}
-
-# heat methodology - reduction in risk is very small
-increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
-rr.S2.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 2 is everyone meeting targets
-
-
-#===
-# ESTIMATE MORTALITY REDUCTION
-#===
-
-# 1. for a list of countries.
-# countries <- intersect(merged$country,colnames(metmins))   # identify countries which can analyse
- merged$drf <- NA                              # create column for dose response estimate net benefit
- merged$lin <- NA                              # create column for linear response estimate net benefit
-
-
-# 2. Estimate reductions in deaths per year.
-for(x in 1:length(countries)){
-  temp.country <- countries[x]
-  risk.change <- rr.metmins[,temp.country] - rr.metmins.new[,temp.country]
-  merged$drf[x] <- mean(risk.change * merged$mortrisk[merged$country==temp.country])
-  merged$lin[x] <- (1-rr.S2.ldrf)*merged$mortrisk[merged$country==temp.country]
-}
-
-#===
-# MONETARY BENEFIT estimate monetary benefit for nmb and lin responses
-#===
-
-merged$nmb_drf  <- merged$drf * merged$VSL
-merged$nmb_lin  <- merged$lin * merged$VSL
-merged$relative <- (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin
-
-#===
-# STORE RESULTS
-#===
-
-results.table$S2_DA_drf  = merged$drf
-results.table$S2_DA_lin  = merged$lin
-results.table$S2_NMB_drf = merged$drf * merged$VSL
-results.table$S2_NMB_lin = merged$lin * merged$VSL
-results.table$S2_NMB_relative = (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin
-
-#================= PLOTS SCENARIO 2  ==============
+#==================== PLOTS SCENARIO 2 =============
 
 pdf("figures/S2_RelativeResults.pdf")
-
 f.deathsavertedplot(x = "S2_DA_lin", y = "S2_DA_drf" , col = "IPAP"  )
-
 dev.off() 
 
+pdf("figures/S2_MapRelative.pdf")
+f.maprelative(relative = "S2_NMB_relative", title = "Scenario 2: Every person meets WHO Guidelines")
+dev.off() 
 
-#==================== ANALYSIS SCENARIO 3 ====================
+pdf("figures/S2_DoseResponse.pdf")
+f.mapdoseresponse(doseresponse = "S2_NMB_drf",title = "Scenario 2: Every person meets WHO Guidelines")
+dev.off() 
 
-# 10% increase in physical activity for the whole population
-
-#===
-# ESTIMATE RELATIVE RISKS FROM MET-MINS DISTRIBUTION FOR EACH COUNTRY.
-#===
-
-rr.metmins <- metmins  ; rr.metmins[,] <- NA    # initialise to same rows etc again.
-
-for(c in colnames(metmins)){
-  # the approx function estimates where within the dose response function each percentile is, assigns appropriate relative risk. 
-  rr.metmins[,c] <- approx(x = lit.rr$A.METmwk,
-                           y=lit.rr$A.rr,
-                           method = "linear",
-                           xout = metmins[,c],
-                           rule = 2)$y
-}
-
-
-#===
-# ESTIMATE EFFECT OF INCREASING MET-MINS BY X AMOUNT ON RELATIVE RISKS.
-#===
-
-metmins.new <- metmins*1.1  # create a new set of met-mins 10% higher
-
-
-rr.metmins.new <- rr.metmins  ; rr.metmins.new[,] <- NA   # initialise matrix
-
-for(c in colnames(rr.metmins.new)){
-  # use the old distributions plus 210 to estimat the new relative risk functions.  
-  rr.metmins.new[,c] <- approx(x = lit.rr$A.METmwk,
-                               y = lit.rr$A.rr,
-                               method = "linear",
-                               xout = metmins.new[,c],
-                               rule = 2)$y
-}
-
-# heat methodology - reduction in risk is very small
-increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
-rr.S2.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 3 is 10% higher activity per person
-
-
-#===
-# ESTIMATE MORTALITY REDUCTION
-#===
-
-# 1. for a list of countries.
-# countries <- intersect(merged$country,colnames(metmins))   # identify countries which can analyse
-merged$drf <- NA                              # create column for dose response estimate net benefit
-merged$lin <- NA                              # create column for linear response estimate net benefit
-
-
-# 2. Estimate reductions in deaths per year.
-for(x in 1:length(countries)){
-  temp.country <- countries[x]
-  risk.change <- rr.metmins[,temp.country] - rr.metmins.new[,temp.country]
-  merged$drf[x] <- mean(risk.change * merged$mortrisk[merged$country==temp.country])
-  merged$lin[x] <- (1-rr.S2.ldrf)*merged$mortrisk[merged$country==temp.country]
-}
-
-#===
-# MONETARY BENEFIT estimate monetary benefit for nmb and lin responses
-#===
-
-merged$nmb_drf  <- merged$drf * merged$VSL
-merged$nmb_lin  <- merged$lin * merged$VSL
-merged$relative <- (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin
-
-#===
-# STORE RESULTS
-#===
-
-results.table$S3_DA_drf  = merged$drf
-results.table$S3_DA_lin  = merged$lin
-results.table$S3_NMB_drf = merged$drf * merged$VSL
-results.table$S3_NMB_lin = merged$lin * merged$VSL
-results.table$S3_NMB_relative = (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin
-
-
-#================= PLOTS SCENARIO 2  ==============
+#==================== PLOTS SCENARIO 3 =============
 
 pdf("figures/S3_RelativeResults.pdf")
-
 f.deathsavertedplot(x = "S3_DA_lin", y = "S3_DA_drf" , col = "IPAP"  )
+dev.off() 
 
+pdf("figures/S3_MapRelative.pdf")
+f.maprelative(relative = "S3_NMB_relative",title = "Scenario 3: 10% Increase in PA for every person")
+dev.off() 
+
+pdf("figures/S3_DoseResponse.pdf")
+f.mapdoseresponse(doseresponse = "S3_NMB_drf",title = "Scenario 3: 10% Increase in PA for every person")
 dev.off() 
 
