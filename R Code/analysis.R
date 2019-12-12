@@ -1,9 +1,9 @@
 #===
 # SETUP
 #===
-
+setwd("C:/Users/Robert/Google Drive/Other Projects/HEAT2/HEAT_DRF")
 rm(list=ls())
-
+#install.packages("kableExtra")
 library(tidyverse)
 library(stringr)
 library(pdftools)
@@ -13,6 +13,8 @@ library(tidyr)
 library(mc2d)
 library(ggrepel) 
 library(knitr)
+library(xtable)
+library(kableExtra)
 library(dplyr)
 library(rgeos)
 library(rworldmap)
@@ -203,45 +205,85 @@ results.table$S3_NMB_drf      = results$drf * merged$VSL/100000
 results.table$S3_NMB_lin      = results$lin * merged$VSL/100000
 results.table$S3_NMB_relative = (results$nmb_drf-results$nmb_lin)/results$nmb_lin*100
 
+saveRDS(object = results.table,file = "data/results.R") # store results table as R file.
+
+#==================== SAVE TABLE AS PDF ============
+
+pdf("figures/ResultsTable.pdf",width = 30,height = 20,title = "Results Table")
+grid.table(results.table)
+dev.off()
+
 #==================== PLOTS SCENARIO 1 =============
 
 pdf("figures/S1_RelativeResults.pdf")
-f.deathsavertedplot(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP"  )
+plotS1A <- f.deathsavertedplot(x = "S1_DA_lin", 
+                    y = "S1_DA_drf" , 
+                    col = "IPAP",
+                    title = "Scenario 1: Additional 10 mins daily walking")
+print(plotS1A)
 dev.off() 
 
 pdf("figures/S1_MapRelative.pdf")
-f.maprelative(relative = "S1_NMB_relative",title = "Scenario 1: 10 mins additional walking")
+f.maprelative(relative = "S1_NMB_relative",
+              title = "Scenario 1: 10 mins additional walking",
+              limits = c(-100,100))
 dev.off() 
 
 pdf("figures/S1_DoseResponse.pdf")
-f.mapdoseresponse(doseresponse = "S1_NMB_drf",title = "Scenario 1: 10 mins additional walking")
+f.mapdoseresponse(doseresponse = "S1_NMB_drf",
+                  title = "Scenario 1: 10 mins additional walking",
+                  limits = c(0,1000))
 dev.off() 
 
 #==================== PLOTS SCENARIO 2 =============
 
+# everyone meets WHO guidelines of 600 MET-mins/week
+
 pdf("figures/S2_RelativeResults.pdf")
-f.deathsavertedplot(x = "S2_DA_lin", y = "S2_DA_drf" , col = "IPAP"  )
+plotS2A <- f.deathsavertedplot(x = "S2_DA_lin", 
+                    y = "S2_DA_drf" , 
+                    col = "IPAP",
+                    title = "Scenario 2: Every person meets WHO Guidelines")
+print(plotS2A)
 dev.off() 
 
 pdf("figures/S2_MapRelative.pdf")
-f.maprelative(relative = "S2_NMB_relative", title = "Scenario 2: Every person meets WHO Guidelines")
+f.maprelative(relative = "S2_NMB_relative", 
+              title = "Scenario 2: Every person meets WHO Guidelines", 
+              limits = c(-200,200))
 dev.off() 
 
 pdf("figures/S2_DoseResponse.pdf")
-f.mapdoseresponse(doseresponse = "S2_NMB_drf",title = "Scenario 2: Every person meets WHO Guidelines")
+f.mapdoseresponse(doseresponse = "S2_NMB_drf",
+                  title = "Scenario 2: Every person meets WHO Guidelines",
+                  limits = c(0,1500))
 dev.off() 
 
 #==================== PLOTS SCENARIO 3 =============
+# 10% rise in physical activity for everyone
 
 pdf("figures/S3_RelativeResults.pdf")
-f.deathsavertedplot(x = "S3_DA_lin", y = "S3_DA_drf" , col = "IPAP"  )
+plotS3A <- f.deathsavertedplot(x = "S3_DA_lin", 
+                    y = "S3_DA_drf" , 
+                    col = "IPAP", 
+                    title = "Scenario 3: 10% Increase in PA for every person" )
+print(plotS3A)
 dev.off() 
 
 pdf("figures/S3_MapRelative.pdf")
-f.maprelative(relative = "S3_NMB_relative",title = "Scenario 3: 10% Increase in PA for every person")
+f.maprelative(relative = "S3_NMB_relative",
+              title = "Scenario 3: 10% Increase in PA for every person",
+              limits = c(-200,200))
 dev.off() 
 
 pdf("figures/S3_DoseResponse.pdf")
-f.mapdoseresponse(doseresponse = "S3_NMB_drf",title = "Scenario 3: 10% Increase in PA for every person")
+f.mapdoseresponse(doseresponse = "S3_NMB_drf",
+                  title = "Scenario 3: 10% Increase in PA for every person",
+                  limits = c(0,1000))
 dev.off() 
 
+#=================== COMBINED PLOT =======================
+
+pdf("figures/RelativeAll.pdf")
+grid.arrange(plotS1A,plotS2A,plotS3A,nrow=3,newpage = T)
+dev.off() 

@@ -4,7 +4,7 @@
 # DEATHS AVERTED PLOT
 #===
 
-f.deathsavertedplot <- function(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP"){
+f.deathsavertedplot <- function(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP", title = " "){
   plot <- ggplot(data = results.table,
        aes_string(x=x,y=y,col = col))+
   theme_classic()+
@@ -12,7 +12,8 @@ f.deathsavertedplot <- function(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP")
   geom_abline(slope = 1)+
   annotate(geom="text", x=40, y=40, 
            label="Equality", color="black")+
-  labs(title = "Annual death's averted per 100,000: Non-linear relationship vs linear relationship",
+  labs(title = title,
+       subtitle = "Annual death's averted per 100,000: Non-linear relationship vs linear relationship",
        caption = "Data Sources: WHO Mort, GBD Pop, HEAT VSL", 
        x = "linear relationship ", 
        y = "Non-linear relationship")+
@@ -33,7 +34,7 @@ return(plot)
 # WORLD MAP PLOTS
 #===
 
-f.maprelative <- function(relative = "S1_NMB_relative",title = ""){
+f.maprelative <- function(relative = "S1_NMB_relative",title = "",limits = c(-100,100)){
   
 map.world <- map_data('world')
 
@@ -48,14 +49,14 @@ plot <- (ggplot(data= map,
                          lty=4) +
             
             #scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
-            scale_fill_viridis(discrete=FALSE,name = "% Dif",limits = c(-100,+100)) +
+            scale_fill_viridis(discrete=FALSE,name = "% Dif",limits = limits) +
             
             labs(title = paste(title), 
                  subtitle = "% difference in NMB between non-linear relationship & linear relationship, Europe (2016)", 
-                 caption = "Sources: Nonlinear DRF from Aram et al. 2015, VSL from HEAT") +
+                 caption = "Sources: Aram et al. 2015; OECD 2012") +
             
             coord_fixed(xlim = c(-20, 70),  
-                        ylim = c(30, 70), 
+                        ylim = c(32, 70), 
                         ratio = 1.3) +
             
             theme(legend.position = c(0.1,0.2),
@@ -75,7 +76,7 @@ return(plot)
 }
 
 
-f.mapdoseresponse <- function(doseresponse = "S1_NMB_drf",title = ""){
+f.mapdoseresponse <- function(doseresponse = "S1_NMB_drf",title = "", limits = c(0,1000)){
   
 
 map.world <- map_data('world')
@@ -93,13 +94,13 @@ plot <- (ggplot(data= map,
                          lty=4) +
             
             #scale_fill_continuous(name = "$nmb/pp",low = "white", high = "blue") +
-            scale_fill_viridis(discrete=FALSE,name = "USD (2016)",limits = c(0,1000)) +
+            scale_fill_viridis(discrete=FALSE,name = "USD (2016)",limits = limits) +
             labs(title = title, 
-                 subtitle = "Annual Monetary Benefit per person of 10mins of walking per capita, Europe (2016)", 
-                 caption = "Sources: DRF from Aram et al. 2015, VSL from HEAT") +
+                 subtitle = "Annual Monetary Benefit per capita, Europe (2016)", 
+                 caption = "Sources: Aram et al. 2015; OECD 2012") +
             
             coord_fixed(xlim = c(-20, 70),  
-                        ylim = c(30, 70), 
+                        ylim = c(32, 70), 
                         ratio = 1.3) +
             
             theme(legend.position = c(0.1,0.2),

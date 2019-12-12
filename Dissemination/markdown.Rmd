@@ -1,0 +1,29 @@
+---
+title: "table"
+author: "Robert Smith"
+date: "12 December 2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+library(kableExtra)
+setwd("C:/Users/Robert/Google Drive/Other Projects/HEAT2/HEAT_DRF")
+kable(readRDS(file = "data/results.R"),format = "markdown") 
+
+#%>%
+#  kable_styling(latex_options = c("repeat_header")) %>%
+#  add_header_above(c(" " = 3, "Scenario 1" = 2, "Scenario 2" = 2, "Scenario 2 3" = 2))
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

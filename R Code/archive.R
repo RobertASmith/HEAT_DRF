@@ -11,6 +11,57 @@
 #                     xout = metmins[,c],
 #                     rule = 2)$y
 #}
+kable_as_image(kable_input = table,filename = "figures/ResultsTable")
+#
+#library(gridExtra)
+#png("figures/test.pdf")
+#grid.table(results.table,)
+#dev.off()
+#
+#
+#
+#pdf("figures/ResultsTable.pdf")
+#\documentclass{article}
+#\begin{document}
+#print(table)
+
+
+#dev.off() 
+#@
+#\end{document}
+pdf
+
+
+documentclass{article}
+pdf("figures/ResultsTable.pdf")
+library(xtable)
+tab <- read.table(text = 'Date    County    Trade
+                  1/1/2012  USA     5
+                  1/1/2012  Japan   4
+                  1/2/2012  USA     10
+                  1/3/2012  Germany 15',header = TRUE)
+print(xtable(tab),hline.after=c(2,3))   ## print.xtable have many smart options
+dev.off()
+
+
+
+
+
+
+knitr
+xtable <- xtable(x = results.table)
+
+print(xtable,type = "html")
+
+table <- kable(results.table,format = "latex", longtable = T,booktabs = T) %>%
+  kable_styling(latex_options = c("repeat_header")) %>%
+  add_header_above(c(" " = 3, "Scenario 1" = 2, "Scenario 2" = 2, "Scenario 2 3" = 2)) 
+
+
+table
+#pdf("figures/hello.pdf")
+save_kable(x = table,file = "figures/test.pdf")
+#dev.off() 
 
 
 # increase in MET-mins.
