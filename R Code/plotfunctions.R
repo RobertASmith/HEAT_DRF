@@ -20,7 +20,10 @@ f.deathsavertedplot <- function(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP",
   #xlim(0, 150) + ylim(0,150)+
   geom_label_repel(data = as.data.frame(results.table), 
                    label = results.table$country, 
-                   size = 2)#,
+                   size = 2,
+                   fill = NA,
+                   label.size = NA,
+                   alpha = 0.6)#,
 #nudge_x = 2, nudge_y = -5,
 #direction = "y",
 #segment.color = "blue",colour = "blue")+

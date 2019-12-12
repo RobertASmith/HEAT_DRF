@@ -1,7 +1,8 @@
 #===
 # SETUP
 #===
-setwd("C:/Users/Robert/Google Drive/Other Projects/HEAT2/HEAT_DRF")
+#setwd("C:/Users/Robert/Google Drive/Other Projects/HEAT2/HEAT_DRF")
+
 rm(list=ls())
 #install.packages("kableExtra")
 library(tidyverse)
@@ -14,7 +15,7 @@ library(mc2d)
 library(ggrepel) 
 library(knitr)
 library(xtable)
-library(kableExtra)
+library(gridExtra)
 library(dplyr)
 library(rgeos)
 library(rworldmap)
@@ -225,13 +226,13 @@ dev.off()
 
 pdf("figures/S1_MapRelative.pdf")
 f.maprelative(relative = "S1_NMB_relative",
-              title = "Scenario 1: 10 mins additional walking",
+              title = "Scenario 1: Additional 10 mins daily walking",
               limits = c(-100,100))
 dev.off() 
 
 pdf("figures/S1_DoseResponse.pdf")
 f.mapdoseresponse(doseresponse = "S1_NMB_drf",
-                  title = "Scenario 1: 10 mins additional walking",
+                  title = "Scenario 1: Additional 10 mins daily walking",
                   limits = c(0,1000))
 dev.off() 
 
@@ -284,6 +285,6 @@ dev.off()
 
 #=================== COMBINED PLOT =======================
 
-pdf("figures/RelativeAll.pdf")
+pdf("figures/RelativeAll.pdf",height = 12,width = 8)
 grid.arrange(plotS1A,plotS2A,plotS3A,nrow=3,newpage = T)
 dev.off() 
