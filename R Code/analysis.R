@@ -124,13 +124,13 @@ merged$lin <- NA                              # create column for linear respons
 #==================== ANALYSIS SCENARIO 1 ==========================
 
 # Estimate BEFORE scenario relative risks
-rr.metmins <- f.getRR(mets = metmins)
+rr.metmins <- f.getRR(mets = metmins,x = lit.rr$K.METmwk.wlk,y=lit.rr$K.rr.wlk)
 
 # Change METmins according to scenario
 metmins.new <- metmins + 210
 
 # estimate AFTER scenario relative risks
-rr.metmins.new <- f.getRR(mets = metmins.new)
+rr.metmins.new <- f.getRR(mets = metmins.new,x = lit.rr$K.METmwk.wlk,y=lit.rr$K.rr.wlk)
 
 # estimate change in relative risk in linear model
 increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
@@ -154,14 +154,14 @@ results.table <- data.frame(ISO_Code = merged$ISO_Code,
 #==================== ANALYSIS SCENARIO 2 ==================
 
 # Estimate BEFORE scenario relative risks
-rr.metmins <- f.getRR(mets = metmins)
+rr.metmins <- f.getRR(mets = metmins,x = lit.rr$K.METmwk.wlk,y=lit.rr$K.rr.wlk)
 
 # Change METmins according to scenario
 metmins.new <- metmins  # create a new set of met-mins equal to old ones
 metmins.new[metmins<600] <- 600 # Change metmins of those lower than 600 mets to 600.
 
 # estimate AFTER scenario relative risks
-rr.metmins.new <- f.getRR(mets = metmins.new)
+rr.metmins.new <- f.getRR(mets = metmins.new,x = lit.rr$K.METmwk.wlk,y=lit.rr$K.rr.wlk)
 
 # estimate change in relative risk in linear model
 increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3

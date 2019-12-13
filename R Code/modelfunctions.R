@@ -1,12 +1,12 @@
 # produces a matrix of relative risks from a matrix of met-mins.
 
-f.getRR <- function(mets = metmins){
+f.getRR <- function(mets = metmins, x = lit.rr$A.METmwk, y = lit.rr$A.rr){
   rr.metmins <- mets  ; rr.metmins[,] <- NA    # initialise to same rows etc again.
   
   for(c in colnames(mets)){
     # the approx function estimates where within the dose response function each percentile is, assigns appropriate relative risk. 
-    rr.metmins[,c] <- approx(x = lit.rr$A.METmwk,
-                             y=lit.rr$A.rr,
+    rr.metmins[,c] <- approx(x = x,
+                             y= y,
                              method = "linear",
                              xout = mets[,c],
                              rule = 2)$y
