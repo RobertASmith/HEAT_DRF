@@ -1,102 +1,11 @@
-#===
-# SETUP
-#===
-#setwd("C:/Users/Robert/Google Drive/Other Projects/HEAT2/HEAT_DRF")
-
-rm(list=ls())
-#install.packages("kableExtra")
-library(tidyverse)
-library(stringr)
-library(pdftools)
-library(reshape2)
-library(ggplot2)
-library(tidyr)
-library(mc2d)
-library(ggrepel) 
-library(knitr)
-library(xtable)
-library(gridExtra)
-library(dplyr)
-library(rgeos)
-library(rworldmap)
-library(flextable)
-library(viridis)
-library(rlang)     #ensures can read from excel
-library(readxl)    # Ensure can read from excel
-library(foreign)   # Foreign Package ensures that read.dta works.
-library(Rcpp)      # so can read from excel.
-
-source(file = "R Code/plotfunctions.R")
-source(file = "R Code/modelfunctions.R")
-#===
-# LOAD & CLEAN DATA
-#===
-
-# Guthold et al. 2014 data on IPAP
-df <- read.csv(file = "data/guthold.csv",
-               stringsAsFactors = FALSE,
-               row.names = 1)%>% 
-            select(country,both) %>% 
-            rename(IPAP = both)
-
-# PA distributions for each country
-metmins <- read.csv("data/distributions.csv",
-                    row.names = 1,
-                    check.names=FALSE, 
-                    stringsAsFactors = F)
-
-# general distribution (UK)
-gen.perc  <- read.csv("data/general_dist.csv",
-                      row.names = 1,
-                      check.names=FALSE) %>%
-                mutate(name = seq(0.01,1,0.01)) %>% 
-                rename(pcnt = name)
-
-# mortality rates
-heat.mort <- read.csv("data/mortality_rates.txt",
-                      header = TRUE,
-                      stringsAsFactors = F)[,c(1,2,12,13)] %>%
-  filter(age_group == "20-74") %>% 
-  spread(key = age_group,value = value_heatdata) %>% 
-  rename(country = country_name_heat,
-         ISO_Code = iso3,
-         #age2044  = '20-44',
-         #age2064  = "20-64",
-         mortrisk  = '20-74') %>%
-         #age4564  = '45-64',
-         #age4574  = '45-74')
-  mutate(country = recode(country,  
-                          'United Kingdom' = 'UK',
-                          "Russian Federation" = "Russia",
-                          "United States of America" = "USA",
-                          "United Republic of Tanzania" = "Tanzania",
-                          "Venezuela (Bolivarian Republic of)" = "Venezuela",
-                          "Republic of Moldova" = "Moldova",
-                          "Viet Nam" = "Vietnam",
-                          "Republic of Korea" = "South Korea",
-                          "Congo" = "Democratic Republic of the Congo",
-                          "Cote d'Ivoire"= "Ivory Coast",
-                          "Iran (Islamic Republic of)" = "Iran",
-                          "Trinidad and Tobago" = "Trinidad"))
-
-# add in HEAT VSL measure
-vsl <- read.csv(file = "data/vsl_heat.csv",
-                stringsAsFactors = F,
-                col.names = c('ISO_Code','Country2','VSL','ISO_heat','modified')) %>% 
-                select (ISO_Code,VSL) # read in value of statistical life estimates
-
-# add in relative risks from xxxx et al. 
-
-# Merge these datasets
-merged <- merge(x = heat.mort,y = vsl)        # Merge the mortality rates and VSL measures
-merged <- merge(x= merged, y = df)            # Merge the df too.
-
-# constrain the metmins data to HEAT countries
-metmins <- metmins[,intersect(merged$country,colnames(metmins))]
-
-# remove unnecessary data
-rm(df,gen.perc,heat.mort,vsl)                 # remove unnecessary data now merged.
-
+# set-up libraries etc.
+source(file = "functions/setup.R")
+# load plotting functions
+source(file = "functions/plotfunctions.R")
+# load model functions
+source(file = "functions/modelfunctions.R")
+# load and clean data
+source(file = "functions/load_and_clean.R")
 
 #===
 # CREATE DOSE/LINEAR RELATIVE RISKS 
@@ -110,9 +19,9 @@ lit.rr <- data.frame(A.METhwk = c(0,3.75,11.25,18.75,31.25,57.5),
                      K.rr.wlk = c(1,0.91,0.88,0.80,NA,NA),
                      K.METhwk.cyc = c(0,11.5,32,65,NA,NA),
                      K.rr.cyc = c(1,0.83,0.76,0.70,NA,NA)  ) %>% 
-  mutate(A.METmwk = A.METhwk*60,
-         K.METmwk.wlk = K.METhwk.wlk*60,
-         K.METmwk.cyc = K.METhwk.cyc*60)
+                      mutate(A.METmwk = A.METhwk*60,
+                             K.METmwk.wlk = K.METhwk.wlk*60,
+                             K.METmwk.cyc = K.METhwk.cyc*60)
 
 #=== INITIALISE
 
@@ -209,10 +118,31 @@ results.table$S3_NMB_relative = (results$nmb_drf-results$nmb_lin)/results$nmb_li
 saveRDS(object = results.table,file = "data/results.R") # store results table as R file.
 
 #==================== SAVE TABLE AS PDF ============
+# Scenario 1 Results
+s1.results.table <- results.table %>% 
+                      select(ISO_Code, country, S1_DA_drf, S1_DA_lin, S1_NMB_drf, S1_NMB_lin)
+s2.results.table <- results.table %>% 
+                      select(ISO_Code, country, S2_DA_drf, S2_DA_lin, S2_NMB_drf, S2_NMB_lin)
+s3.results.table <- results.table %>% 
+                      select(ISO_Code, country, S3_DA_drf, S3_DA_lin, S3_NMB_drf, S3_NMB_lin)
 
-pdf("figures/ResultsTable.pdf",width = 30,height = 20,title = "Results Table")
-grid.table(results.table)
-dev.off()
+colnames(s1.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin')
+colnames(s2.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin')
+colnames(s3.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin')
+
+write.csv(x =  s1.results.table,file = "temp.csv")
+
+kable <- kable(x = s3.results.table,
+               caption = "Results from Scenario 1",
+               format = "latex",digits = 2) %>%
+  kable_styling(latex_options = c("striped", "scale_down"),font_size = 8) %>% 
+  add_header_above(c(" "," ", "Deaths Averted" = 2, "Net Monetary Benefit" = 2))
+
+save_kable(kable, file = "temp.R")
+
+# pdf("figures/ResultsTable.pdf",width = 30,height = 20,title = "Results Table")
+# grid.table(results.table)
+# dev.off()
 
 #==================== PLOTS SCENARIO 1 =============
 
