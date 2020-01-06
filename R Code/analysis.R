@@ -11,17 +11,83 @@ source(file = "functions/load_and_clean.R")
 # CREATE DOSE/LINEAR RELATIVE RISKS 
 #===
 
-# get dose response relationship for mortality, from published paper by Aram et al. 2015
+# New dose response relationship, using Woodcock et al. 2011 (https://doi.org/10.1093/ije/dyq104).
+# Have therefore replaced other studies by Kelly et al., 2014 and Aram et al. 2015.
+#
+# Method basically turns linear relationship plotted here:
+  x = 1:3000 ; y = (1 - (1 - 0.89) * (x/168)); y[y<0.7] <- 0.7
 
-lit.rr <- data.frame(A.METhwk = c(0,3.75,11.25,18.75,31.25,57.5),
-                     A.rr = c(1,0.8,0.69,0.63,0.61,0.61),
-                     K.METhwk.wlk = c(0,8,22.5,50,NA,NA),
-                     K.rr.wlk = c(1,0.91,0.88,0.80,NA,NA),
-                     K.METhwk.cyc = c(0,11.5,32,65,NA,NA),
-                     K.rr.cyc = c(1,0.83,0.76,0.70,NA,NA)  ) %>% 
-                      mutate(A.METmwk = A.METhwk*60,
-                             K.METmwk.wlk = K.METhwk.wlk*60,
-                             K.METmwk.cyc = K.METhwk.cyc*60)
+  plot(x = x,
+       y = y,
+       type = "l", 
+       xlab = 'Weekly MET-mins', 
+       ylim = c(0.5,1),
+       ylab = "Relative Risk",
+       main = "Relative risk using linear & non-linear dose response relationship")
+  
+  legend('topright', cex = 0.7,
+         legend = c("Linear","0.25","0.375","0.5","0.75"),
+         lty = c(1,2,3,4,5), 
+         col = c("black","black","blue","black","black"),
+         title = "Power Transformation",bty = "n")
+
+# Into a curve using equation:
+# RR = a^(p/b)^t     # From Oliver Mytton PhD Thesis page 140
+# where a = reference RR, b = reference metmins, t = log transformation, p = physical activity levels (met-mins/wk).
+# there is considerable difference in the plots by the value of t
+
+  # set parameters as from HEAT manual
+  b = 168 ; a = 0.89 ; p = x
+  
+  # 0.25 power transformation
+  t = 0.25
+  lines(x = p, y = a^(p/b)^t, lty = 2)
+  
+  # 0.375 power transformation (as per Woodcock et al.)
+  t = 0.375 
+  lines(x = p, y = a^(p/b)^t, lty = 3, col = "blue")
+  
+  # 0.5 power transformation
+  t = 0.5
+  lines(x = p, y = a^(p/b)^t, lty = 4)
+  
+  # 0.75 power transformation
+  t = 0.75
+  lines(x = p, y = a^(p/b)^t, lty = 5)
+  
+# I use the value 0.375 throughout as done by Woodcock et al. 2010 (https://doi.org/10.1093/ije/dyq104).
+# Then I very the analysis using the others as sensitivity analysis.
+
+#lit.rr <- data.frame(A.METhwk = c(0,3.75,11.25,18.75,31.25,57.5),
+#                     A.rr = c(1,0.8,0.69,0.63,0.61,0.61),
+#                     K.METhwk.wlk = c(0,8,22.5,50,NA,NA),
+#                     K.rr.wlk = c(1,0.91,0.88,0.80,NA,NA),
+#                     K.METhwk.cyc = c(0,11.5,32,65,NA,NA),
+#                     K.rr.cyc = c(1,0.83,0.76,0.70,NA,NA)  ) %>% 
+#                      mutate(A.METmwk = A.METhwk*60,
+#                             K.METmwk.wlk = K.METhwk.wlk*60,
+#                             K.METmwk.cyc = K.METhwk.cyc*60)
+#
+## plot these
+##plot(lit.rr[,'A.METmwk'],lit.rr[,'A.rr'],type = "b")
+#plot(lit.rr[,'K.METmwk.wlk'], 
+#     lit.rr[,'K.rr.wlk'], 
+#     col = "blue",
+#     type = "b")
+#plot(1:3000,(1 - (1 - 0.89) * ((1:3000)/3/168)),type = "l")
+#
+####
+## RR = a^(p/b)^t     # From Oliver Mytton PhD Thesis page 140
+## where a = reference RR, b = reference metmins, t = log transformation, p = physical activity levels (met-mins/wk).
+#
+#b = 168*3 ; a = 0.88 ; t = 0.375 ; p = 1:3500
+#rr <- a^(p/b)^t
+#lines(1:3500,rr)
+#
+#lm(lit.rr[,'A.rr'] ~ log( lit.rr[,'A.METmwk']) )
+#exp(logb(2,base = 10))
+#plot(log(x = 1:100,base = 0.25))
+#log
 
 #=== INITIALISE
 
@@ -33,20 +99,26 @@ merged$lin <- NA                              # create column for linear respons
 #==================== ANALYSIS SCENARIO 1 ==========================
 
 # Estimate BEFORE scenario relative risks
-rr.metmins <- f.getRR(mets = metmins,x = lit.rr$K.METmwk.wlk,y=lit.rr$K.rr.wlk)
+rr.metmins <- f.getRR(mets = metmins,
+                      x = lit.rr$K.METmwk.wlk,
+                      y=lit.rr$K.rr.wlk)
 
 # Change METmins according to scenario
 metmins.new <- metmins + 210
 
 # estimate AFTER scenario relative risks
-rr.metmins.new <- f.getRR(mets = metmins.new,x = lit.rr$K.METmwk.wlk,y=lit.rr$K.rr.wlk)
+rr.metmins.new <- f.getRR(mets = metmins.new,
+                          x = lit.rr$K.METmwk.wlk,
+                          y=lit.rr$K.rr.wlk)
 
 # estimate change in relative risk in linear model
 increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
 rr.S1.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 1 is 10 mins walking per person
 
 # estimate reductions in deaths per year.
-results <- f.getresults(risk.change.lin = rr.S1.ldrf, df = merged, v.countries = countries)
+results <- f.getresults(risk.change.lin = rr.S1.ldrf, 
+                        df = merged, 
+                        v.countries = countries)
 
 # store results
 
@@ -63,21 +135,27 @@ results.table <- data.frame(ISO_Code = merged$ISO_Code,
 #==================== ANALYSIS SCENARIO 2 ==================
 
 # Estimate BEFORE scenario relative risks
-rr.metmins <- f.getRR(mets = metmins,x = lit.rr$K.METmwk.wlk,y=lit.rr$K.rr.wlk)
+rr.metmins <- f.getRR(mets = metmins,
+                      x = lit.rr$K.METmwk.wlk,
+                      y=lit.rr$K.rr.wlk)
 
 # Change METmins according to scenario
 metmins.new <- metmins  # create a new set of met-mins equal to old ones
 metmins.new[metmins<600] <- 600 # Change metmins of those lower than 600 mets to 600.
 
 # estimate AFTER scenario relative risks
-rr.metmins.new <- f.getRR(mets = metmins.new,x = lit.rr$K.METmwk.wlk,y=lit.rr$K.rr.wlk)
+rr.metmins.new <- f.getRR(mets = metmins.new,
+                          x = lit.rr$K.METmwk.wlk,
+                          y=lit.rr$K.rr.wlk)
 
 # estimate change in relative risk in linear model
 increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
 rr.S2.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 1 is 10 mins walking per person
 
 # estimate reductions in deaths per year.
-results <- f.getresults(risk.change.lin = rr.S2.ldrf, df = merged, v.countries = countries)
+results <- f.getresults(risk.change.lin = rr.S2.ldrf, 
+                        df = merged, 
+                        v.countries = countries)
 
 # store results
 
@@ -92,7 +170,9 @@ results.table$S2_NMB_relative = (results$nmb_drf-results$nmb_lin)/results$nmb_li
 # 10% increase in physical activity for the whole population
 
 # Estimate BEFORE scenario relative risks
-rr.metmins <- f.getRR(mets = metmins)
+rr.metmins <- f.getRR(mets = metmins,
+                      x = lit.rr$K.METmwk.wlk,
+                      y=lit.rr$K.rr.wlk)
 
 # Change METmins according to scenario
 metmins.new <- metmins*1.1  # create a new set of met-mins 10% higher
@@ -105,7 +185,9 @@ increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
 rr.S2.ldrf <- 1 - (1 - 0.89) * (increase.walk/168)  # scenario 1 is 10 mins walking per person
 
 # estimate reductions in deaths per year.
-results <- f.getresults(risk.change.lin = rr.S2.ldrf, df = merged, v.countries = countries)
+results <- f.getresults(risk.change.lin = rr.S2.ldrf, 
+                        df = merged, 
+                        v.countries = countries)
 
 # store results
 
@@ -130,16 +212,20 @@ colnames(s1.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin'
 colnames(s2.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin')
 colnames(s3.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin')
 
-write.csv(x =  s1.results.table,file = "temp.csv")
+# excel tables, for publication if latex not accepted.
+write.csv(x =  s1.results.table,file = "s1_results.csv")
+write.csv(x =  s2.results.table,file = "s2_results.csv")
+write.csv(x =  s3.results.table,file = "s3_results.csv")
 
-kable <- kable(x = s3.results.table,
-               caption = "Results from Scenario 1",
-               format = "latex",digits = 2) %>%
-  kable_styling(latex_options = c("striped", "scale_down"),font_size = 8) %>% 
-  add_header_above(c(" "," ", "Deaths Averted" = 2, "Net Monetary Benefit" = 2))
+# latex table
+#kable <- kable(x = s3.results.table,
+#               caption = "Results from Scenario 1",
+#               format = "latex",digits = 2) %>%
+#  kable_styling(latex_options = c("striped", "scale_down"),font_size = 8) %>% 
+#  add_header_above(c(" "," ", "Deaths Averted" = 2, "Net Monetary Benefit" = 2))
+#
 
-save_kable(kable, file = "temp.R")
-
+# pdf
 # pdf("figures/ResultsTable.pdf",width = 30,height = 20,title = "Results Table")
 # grid.table(results.table)
 # dev.off()
