@@ -43,10 +43,6 @@ source(file = "functions/load_and_clean.R")
   t = 0.25
   lines(x = p, y = a^(p/b)^t, lty = 2)
   
-  # 0.375 power transformation (as per Woodcock et al.)
-  t = 0.375 
-  lines(x = p, y = a^(p/b)^t, lty = 3, col = "blue")
-  
   # 0.5 power transformation
   t = 0.5
   lines(x = p, y = a^(p/b)^t, lty = 4)
@@ -54,6 +50,10 @@ source(file = "functions/load_and_clean.R")
   # 0.75 power transformation
   t = 0.75
   lines(x = p, y = a^(p/b)^t, lty = 5)
+  
+  # 0.375 power transformation (as per Woodcock et al.)
+  t = 0.375 
+  lines(x = p, y = a^(p/b)^t, lty = 3, col = "blue")
   
 # I use the value 0.375 throughout as done by Woodcock et al. 2010 (https://doi.org/10.1093/ije/dyq104).
 # Then I very the analysis using the others as sensitivity analysis.
@@ -99,17 +99,21 @@ merged$lin <- NA                              # create column for linear respons
 #==================== ANALYSIS SCENARIO 1 ==========================
 
 # Estimate BEFORE scenario relative risks
-rr.metmins <- f.getRR(mets = metmins,
-                      x = lit.rr$K.METmwk.wlk,
-                      y=lit.rr$K.rr.wlk)
+rr.metmins <-  a^(metmins/b*3)^t
+  
+  #f.getRR(mets = metmins,
+  #                    x = lit.rr$K.METmwk.wlk,
+  #                    y=lit.rr$K.rr.wlk)
 
 # Change METmins according to scenario
 metmins.new <- metmins + 210
 
 # estimate AFTER scenario relative risks
-rr.metmins.new <- f.getRR(mets = metmins.new,
-                          x = lit.rr$K.METmwk.wlk,
-                          y=lit.rr$K.rr.wlk)
+rr.metmins.new <- a^(metmins.new/b*3)^t
+  
+  #f.getRR(mets = metmins.new,
+  #                        x = lit.rr$K.METmwk.wlk,
+  #                        y=lit.rr$K.rr.wlk)
 
 # estimate change in relative risk in linear model
 increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
