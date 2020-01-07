@@ -15,7 +15,7 @@ f.deathsavertedplot <- function(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP",
   labs(title = title,
        subtitle = "Annual death's averted per 100,000: Non-linear relationship vs linear relationship",
        caption = "Data Sources: WHO Mort, GBD Pop, HEAT VSL", 
-       x = "linear relationship ", 
+       x = "Linear relationship ", 
        y = "Non-linear relationship")+
   #xlim(0, 150) + ylim(0,150)+
   geom_label_repel(data = as.data.frame(results.table), 
