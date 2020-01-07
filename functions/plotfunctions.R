@@ -13,8 +13,8 @@ f.deathsavertedplot <- function(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP",
   annotate(geom="text", x=40, y=40, 
            label="Equality", color="black")+
   labs(title = title,
-       subtitle = "Annual death's averted per 100,000: Non-linear relationship vs linear relationship",
-       caption = "Data Sources: WHO Mort, GBD Pop, HEAT VSL", 
+       subtitle = "Annual deaths averted per 100,000: Non-linear relationship vs linear relationship",
+       caption = "IPAP: Insufficient Physical Activity Prevalence;  Data Sources: WHO (2018), GBD (2017), OECD(2015)", 
        x = "Linear relationship ", 
        y = "Non-linear relationship")+
   #xlim(0, 150) + ylim(0,150)+
