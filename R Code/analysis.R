@@ -4,6 +4,8 @@ source(file = "functions/setup.R")
 source(file = "functions/plotfunctions.R")
 # load model functions
 source(file = "functions/modelfunctions.R")
+# load results table function
+source(file = "functions/results_tables.R")
 # load and clean data
 source(file = "functions/load_and_clean.R")
 
@@ -77,97 +79,48 @@ merged$drf <- NA                              # create column for dose response 
 merged$lin <- NA                              # create column for linear response estimate net benefit
 
 # set parameters as from HEAT manual, 168mins at 3METS, 0.89 RR.
-b = 168*3 ; a = 0.89 ; p = x
-# t is difficult, varied in sensitivity analysis later
-t <- 0.375
-
-# run scenarios
-source(file = "functions/scenario1.R")
-source(file = "functions/scenario2.R")
-source(file = "functions/scenario3.R")
-
-saveRDS(object = results.table,file = "data/results.R") # store results table as R file.
-
-#==================== SAVE TABLE AS PDF ============
-# Scenario 1 Results
-s1.results.table <- results.table %>% 
-                      select(ISO_Code, country, S1_DA_drf, S1_DA_lin, S1_NMB_drf, S1_NMB_lin)
-s2.results.table <- results.table %>% 
-                      select(ISO_Code, country, S2_DA_drf, S2_DA_lin, S2_NMB_drf, S2_NMB_lin)
-s3.results.table <- results.table %>% 
-                      select(ISO_Code, country, S3_DA_drf, S3_DA_lin, S3_NMB_drf, S3_NMB_lin)
-
-colnames(s1.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin')
-colnames(s2.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin')
-colnames(s3.results.table) <- c('ISO3 Code', 'Country', 'DRF', 'Lin','DRF','Lin')
-
-# excel tables, for publication if latex not accepted.
-write.csv(x =  s1.results.table,file = "s1_results.csv")
-write.csv(x =  s2.results.table,file = "s2_results.csv")
-write.csv(x =  s3.results.table,file = "s3_results.csv")
-
-# latex table
-#kable <- kable(x = s3.results.table,
-#               caption = "Results from Scenario 1",
-#               format = "latex",digits = 2) %>%
-#  kable_styling(latex_options = c("striped", "scale_down"),font_size = 8) %>% 
-#  add_header_above(c(" "," ", "Deaths Averted" = 2, "Net Monetary Benefit" = 2))
-#
-path = 'figures/t375'
-# create all plots.
-source('functions/all_plots.R')
-
+b = 168*3 ; a = 0.89 ; p = 1:3000
 
 #====
 # SENSITIVITY ANALYSIS
 #====
 
-# change parameters
-t <- 0.375
-path = 'output/t375/figures'
-# run scenarios
-source(file = "functions/scenario1.R")
-source(file = "functions/scenario2.R")
-source(file = "functions/scenario3.R")
-# save table
-saveRDS(object = results.table,file = "output/t375/results.R") # store results table as R file.
-# create plots
-source('functions/all_plots.R')
+sensitivity <- list( 
+  
+  fig.path =      c('output/t375/figures',
+                    'output/t25/figures',
+                    'output/t50/figures',
+                    'output/t75/figures'),
+  
+  results.path = c('output/t375/results',
+                   'output/t25/results',
+                   'output/t50/results',
+                   'output/t75/results'),
+  
+  t =      c(0.375, 0.25, 0.5, 0.75)
+  
+)
 
-# change parameters
-t <- 0.25
-path = 'output/t25/figures'
-# run scenarios
-source(file = "functions/scenario1.R")
-source(file = "functions/scenario2.R")
-source(file = "functions/scenario3.R")
-# save table
-saveRDS(object = results.table,file = "output/t25/results.R") # store results table as R file.
-# create plots
-source('functions/all_plots.R')
+# run the analysis for each value of t
+for(s in 1:4){
 
-# change parameters
-t <- 0.5
-path = 'output/t50/figures'
-# run scenarios
-source(file = "functions/scenario1.R")
-source(file = "functions/scenario2.R")
-source(file = "functions/scenario3.R")
-# save table
-saveRDS(object = results.table,file = "output/t50/results.R") # store results table as R file.
-# create plots
-source('functions/all_plots.R')
+  # change parameters, t is either 0.375, 0.25,0.5 or 0.75
+  t <- sensitivity$t[s]
+  
+  # where the files are saved to changes based on t
+  path = sensitivity$fig.path[s]
+  
+  # run scenarios given the new value of t
+  source(file = "functions/scenario1.R")
+  source(file = "functions/scenario2.R")
+  source(file = "functions/scenario3.R")
+  
+  # save tables to appropriate path
+  saveRDS(object = results.table,file = paste(sensitivity$results.path[s],sep = "/","results.R")) # store results table as R file.
+  f.results.table(path = sensitivity$results.path[s])
+  
+  # create plots, uses path from above
+  source('functions/all_plots.R')
 
-# change parameters
-t <- 0.75
-path = 'output/t75/figures'
-# run scenarios
-source(file = "functions/scenario1.R")
-source(file = "functions/scenario2.R")
-source(file = "functions/scenario3.R")
-# save table
-saveRDS(object = results.table,file = "output/t75/results.R") # store results table as R file.
-# create plots
-source('functions/all_plots.R')
-
+}
 

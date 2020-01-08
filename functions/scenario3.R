@@ -11,7 +11,7 @@ rr.metmins <-   a^(metmins/b*3)^t
 metmins.new <- metmins*1.1  # create a new set of met-mins 10% higher
 
 # estimate AFTER scenario relative risks
-rr.metmins.new <-   a^(metmins/b*3)^t
+rr.metmins.new <-   a^(metmins.new/b*3)^t
 
 # estimate change in relative risk in linear model
 increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
