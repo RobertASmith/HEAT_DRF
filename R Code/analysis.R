@@ -1,76 +1,25 @@
 # set-up libraries etc.
-source(file = "functions/setup.R")
+  source(file = "functions/setup.R")
 # load plotting functions
-source(file = "functions/plotfunctions.R")
+  source(file = "functions/plotfunctions.R")
 # load model functions
-source(file = "functions/modelfunctions.R")
+  source(file = "functions/modelfunctions.R")
 # load results table function
-source(file = "functions/results_tables.R")
+  source(file = "functions/results_tables.R")
 # load and clean data
-source(file = "functions/load_and_clean.R")
+  source(file = "functions/load_and_clean.R")
 
+#====
+# Plot of the different relative risks using:
+# linear relationship, power transformation 0.25,0.375,0.5,0.75
+#====
+
+  source(file = "functions/relativerisksplot.R")
+  
 #===
-# CREATE DOSE/LINEAR RELATIVE RISKS 
+# See plot of PA distributions for 5 countries.
+# Done in ggplot in seperate pdf.
 #===
-
-# New dose response relationship, using Woodcock et al. 2011 (https://doi.org/10.1093/ije/dyq104).
-# Have therefore replaced other studies by Kelly et al., 2014 and Aram et al. 2015.
-#
-# Method basically turns linear relationship plotted here:
-  x <-  1:3000        # range of met-mins on x axis
-  y <- (1 - (1 - 0.89) * (x/168))  ;  y[y<0.7] <- 0.7   # y axis simply linear relationship
-
-  plot(x = x,
-       y = y,
-       type = "l", 
-       xlab = 'Weekly MET-mins', 
-       ylim = c(0.5,1),
-       ylab = "Relative Risk",
-       main = "Relative risk using linear & non-linear dose response relationship"
-       )
-  
-  legend('topright', 
-         cex = 0.7,
-         legend = c("Linear","0.25","0.375","0.5","0.75"),
-         lty = c(1,2,3,4,5), 
-         col = c("black","black","blue","black","black"),
-         title = "Power Transformation",
-         bty = "n"
-         )
-
-# Into a curve using equation:
-# RR = a^(p/b)^t     # From Oliver Mytton PhD Thesis page 140
-# where a = reference RR, b = reference metmins, t = log transformation, p = physical activity levels (met-mins/wk).
-# there is considerable difference in the plots by the value of t
-
-  # set parameters as from HEAT manual, 168mins at 3METS, 0.89 RR.
-  b = 168*3 ; a = 0.89 ; p = x
-  
-  # 0.25 power transformation
-  t = 0.25
-  lines(x = p, y = a^(p/b)^t, lty = 2)
-  
-  # 0.5 power transformation
-  t = 0.5
-  lines(x = p, y = a^(p/b)^t, lty = 4)
-  
-  # 0.75 power transformation
-  t = 0.75
-  lines(x = p, y = a^(p/b)^t, lty = 5)
-  
-  # 0.375 power transformation (as per Woodcock et al.)
-  t = 0.375 
-  lines(x = p, y = a^(p/b)^t, lty = 3, col = "blue")
-  
-# I use the value 0.375 throughout as done by Woodcock et al. 2010 (https://doi.org/10.1093/ije/dyq104).
-# Then I vary the analysis using the others as sensitivity analysis.
-
-# RR = a^(p/b)^t     # From Oliver Mytton PhD Thesis page 140
-# where a = reference RR, b = reference metmins, t = log transformation, p = physical activity levels (met-mins/wk).
-
-# b = 168*3 ; a = 0.88 ; t = 0.375 ; p = 1:3500
-# rr <- a^(p/b)^t
-# lines(1:3500,rr)
 
 #=================== INITIALISE ===============================#
 
@@ -82,8 +31,11 @@ merged$lin <- NA                              # create column for linear respons
 b = 168*3 ; a = 0.89 ; p = 1:3000
 
 #====
-# SENSITIVITY ANALYSIS
+# ANALYSIS
 #====
+
+# creates figures and tables of results in output folder.
+# each time compares results using t=0.375, t=0.25, t=0.5,t=0.75.
 
 sensitivity <- list( 
   
@@ -121,6 +73,5 @@ for(s in 1:4){
   
   # create plots, uses path from above
   source('functions/all_plots.R')
-
 }
 

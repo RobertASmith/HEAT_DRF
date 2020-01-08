@@ -56,7 +56,7 @@ plot <- (ggplot(data= map,
             
             labs(title = paste(title), 
                  subtitle = "% difference in NMB between non-linear relationship & linear relationship, Europe (2016)", 
-                 caption = "Sources: Aram et al. 2015; OECD 2012") +
+                 caption = "Sources: WHO (2019); OECD (2012)") +
             
             coord_fixed(xlim = c(-20, 70),  
                         ylim = c(32, 70), 
@@ -100,7 +100,7 @@ plot <- (ggplot(data= map,
             scale_fill_viridis(discrete=FALSE,name = "USD (2016)",limits = limits) +
             labs(title = title, 
                  subtitle = "Annual Monetary Benefit per capita, Europe (2016)", 
-                 caption = "Sources: Aram et al. 2015; OECD 2012") +
+                 caption = "Sources: WHO (2019); OECD (2012)") +
             
             coord_fixed(xlim = c(-20, 70),  
                         ylim = c(32, 70), 
@@ -123,3 +123,10 @@ return(plot)
 
 }
 
+
+#===
+# PLOT SPECIFIC COUNTRY PA DISTRIBUTION
+#===
+
+
+#hist(metmins[,"Slovenia"])

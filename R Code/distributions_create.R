@@ -24,6 +24,8 @@ library(foreign)   # Foreign Package ensures that read.dta works.
 library(tidyverse)
 library(dplyr)
 library(Rcpp)      # so can read from excel.
+library("reactable")
+library("gplots")
 
 #===
 # MATCHING DATA TO MAP DATA
@@ -51,26 +53,19 @@ df <- df %>% mutate(country = recode(country,
                                      #"Congo" = "Democratic Republic of the Congo",
                                      "Cote d'Ivoire"= "Ivory Coast",
                                      "Iran (Islamic Republic of)" = "Iran",
-                                     "Trinidad and Tobago" = "Trinidad"))
+                                     "Trinidad and Tobago" = "Trinidad")) %>% 
+              filter(country != "Democratic Republic of the Congo")
 
 
 map.vsly <- left_join(map.world, df, by = c('region' = 'country')) 
 
 
 #===
-# CREATING A COLOURCODED MAP
+# Creatimg chloropleth map of the world
 #===
 
-ditch_the_axes <- theme(
-  axis.text = element_blank(),
-  axis.line = element_blank(),
-  axis.ticks = element_blank(),
-  panel.border = element_blank(),
-  panel.grid = element_blank(),
-  axis.title = element_blank()
-)
-
-plot1 <- (ggplot(data= map.vsly, 
+ggsave(filename = "output/IPAP.pdf",
+         plot = (ggplot(data= map.vsly, 
                  aes(x = long, y = lat, group = group)) +
             
             geom_polygon(aes(fill = 1-both),
@@ -83,26 +78,27 @@ plot1 <- (ggplot(data= map.vsly,
                  subtitle = "Age standardised to the WHO Standard Population, 2016.", 
                  caption = "Source: Guthold R et al. (2018) Appendix 5") +
             
-            ditch_the_axes +
-            
             theme(legend.position = c(0.1,0.2),
                   legend.background = element_rect(fill = "aliceblue"),
                   #legend.title = element_blank(),
                   panel.background = element_rect(fill = "aliceblue"),
-                  legend.key.width = unit(0.5,"cm"))
-)
+                  legend.key.width = unit(0.5,"cm"),
+                  axis.text = element_blank(),
+                  axis.line = element_blank(),
+                  axis.ticks = element_blank(),
+                  panel.border = element_blank(),
+                  panel.grid = element_blank(),
+                  axis.title = element_blank())
+    ))
 
-pdf("figures/ggplot.pdf")
-print(plot1)     # Plot 1 --> in the first page of PDF
-dev.off() 
 
 #===
-# LOAD HSE DISTRIBUTIONS OF PHYSICAL ACTIIVTY
+# Creating generic distribution, from HSE
 #===
 
 mets <- c(0,4,8) 
 
-# read in data, setlect the necessary variables and filter the dataset to those who answered questions, create/calc metmins variable.
+# read in data, select the necessary variables and filter the dataset to those who answered questions, create/calc metmins variable.
 hsedata <- read.dta("C:/Users/Robert/Google Drive/Model/Data/Raw/HSE15/hse2015ai.dta", convert.factors=FALSE)  %>%  # read in data
   dplyr::select(Sex,ag16g10,TotmWalD,MPAmWk,VPAmWk,MVPAmWk,wt_int) %>%             # select PA data
   dplyr::filter(MVPAmWk >= 0,                                                      # filter dataset to those who answered questions.
@@ -124,10 +120,8 @@ hsedata <- read.dta("C:/Users/Robert/Google Drive/Model/Data/Raw/HSE15/hse2015ai
 #       y = "Density") +
 #  guides(fill=FALSE)
 
-#====
-# Create percentiles for English (Generic) Distribution
-#====
 
+# Create percentiles for English (Generic) Distribution
 gen.perc <- hsedata %>% 
   summarise(list(enframe(quantile(cons_metmins, probs= c(seq(0.01,1,0.01)))))) %>%  # create quintiles for each group
   unnest %>% mutate(name = seq(0.01,1,0.01)) 
@@ -140,8 +134,10 @@ gen.perc <- hsedata %>%
 #       y = "Weekly MET-mins")+
 #  theme_classic()
 
+
+
 #===
-# DISTRIBUTION PHYSICAL ACTIVITY EVERY COUNTRY.
+# Create physical activity distribution every country.
 #===
 
 country.matrix <- matrix(data = NA,
@@ -152,12 +148,12 @@ country.matrix[1,] <- 0
 
 for(c in 1:ncol(country.matrix)){ # country loop
   
-  country <- df$country[c]
-  
-  for(x in 2:100){ # percentile loop
+  country <- paste(df$country[c])
+  for(x in 2:100){ 
+    # percentile loop
     country.matrix[x,country] <- 0.01 * df$both[df$country == country]/df$both[df$country == "UK"] + country.matrix[x-1,country]
   } # percentile loop
-}
+    } # country loop
 
 #====
 # USE GENERAL DISTRIBUTION TO ASSIGN MET-MINS
@@ -180,27 +176,31 @@ for(c in colnames(country.matrix)){
 write.csv(x = metmins,file = "data/distributions.csv")
 write.csv(x = gen.perc, file = "data/general_dist.csv")
 
-
 # TESTING THIS TO ENSURE CORRECT
 
-# country <- "Ukraine"
-# paste(country,"percent inactive"," ",round(country.matrix[,country][33],digits = 2),"vs Githuld:",df$both[df$country == country])
-# 
-# df$both[df$country == "UK"]
-# plot(country.matrix[2:101,"Ukraine"],gen.perc$value)
-# lines(seq(0.01,1,by = 0.01),gen.perc$value)
-# abline(h = 600,col="red")
-
-#plot distributions
+#plot physical activity percentiles
 metmins_long <- melt(metmins,
                      varnames = c("percentile","country"),
                      value.name = "metmins")
-ggplot(metmins_long[metmins_long$country =="Armenia",])+
-  geom_line(aes(x = percentile, y = metmins,col = country))+
-  theme_classic()+
-  labs(title = "Physical Activity in 10 countries",
-       subtitle = "Using method by Hafner et al. (2019)",
-       caption = "Sources: HSE 2015, Guthold et al. 2018",
-       x = "Percentile",
-       y = "Weekly MET-mins") +
-  guides(fill=FALSE)
+
+ggsave(plot = 
+         
+         ggplot(metmins_long %>% filter(country %in% c("UK",                                            "UK",
+                                              "France",
+                                              "Portugal",
+                                              "Ukraine",
+                                              "Germany")))+
+        geom_line(aes(x = percentile, y = metmins,col = country))+
+        theme_classic()+
+        labs(title = "Physical Activity in 5 HEAT countries",
+             subtitle = "Using method developed in Hafner et al. (2019)",
+             caption = "Sources: HSE 2015, Guthold et al. 2018",
+             x = "Percentile",
+             y = "Weekly MET-mins") +
+        guides(fill=FALSE),
+       
+       filename = "output/countrydistributions.pdf",
+       
+       width = 5, height = 7)
+
+

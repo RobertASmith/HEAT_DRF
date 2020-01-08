@@ -32,7 +32,7 @@ ggsave(filename = "S1_DoseResponse.pdf",
        plot = f.mapdoseresponse(
          doseresponse = "S1_NMB_drf",
          title = "Scenario 1: Additional 10 mins daily walking",
-         limits = c(0,1000)))
+         limits = c(0,800)))
 
 
 #==================== PLOTS SCENARIO 2 =============
