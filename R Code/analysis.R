@@ -39,10 +39,10 @@ b = 168*3 ; a = 0.89 ; p = 1:3000
 
 sensitivity <- list( 
   
-  fig.path =      c('output/t375/figures',
-                    'output/t25/figures',
-                    'output/t50/figures',
-                    'output/t75/figures'),
+  fig.path =     c('output/t375/figures',
+                   'output/t25/figures',
+                   'output/t50/figures',
+                   'output/t75/figures'),
   
   results.path = c('output/t375/results',
                    'output/t25/results',
