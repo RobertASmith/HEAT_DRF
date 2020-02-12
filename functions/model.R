@@ -3,9 +3,10 @@
 #===
 # additional 10mins daily walking
 f_model <- function(a = 0.89, b = 168, t = t, s = s, 
-                         metmins = metmins, merged = merged, countries = countries,
-                         sensitivity = sensitivity,
-                         increase = NULL, scenario = NULL){
+                    metmins = metmins, merged = merged, 
+                    countries = countries,
+                    sensitivity = sensitivity,
+                    increase = NULL, scenario = NULL){
   # t is the power transformation, metmins the orginal metmins, 
   # a is the reference relative risk
   # b is the reference physical activity level in mets
@@ -27,21 +28,22 @@ rr.metmins <-  a^(metmins/b*3)^t
 if(scenario == 1){
   # Change METmins according to scenario, 10mins, 7 days, 3METs = 210METmins
   metmins.new <- metmins + increase
-  return(print("scenario1"))
-}else{
+  print(scenario)
+} else {
   if(scenario == 2){
     # Change METmins according to scenario, all those below 600 mets increase to 600 met-mins.
     metmins.new <- metmins ;  metmins.new[metmins.new<600] <- 600
-    return(print("scenario2"))
-  }else{
+    print(scenario)
+  } else {
     if(scenario == 3){
       metmins.new <- metmins*1.1  # create a new set of met-mins 10% higher
-      return(print("scenario3"))
-    }else{
-      return(print("ERROR")) # return an error if the input is not 1,2 or 3.
+      print(scenario)
+    } else {
+      stop("warning") # return an error if the input is not 1,2 or 3.
     }
   }
 }
+
 # estimate AFTER scenario relative risks
 rr.metmins.new <- a^(metmins.new/b*3)^t
 
@@ -84,17 +86,20 @@ merged$relative <- (merged$nmb_drf - merged$nmb_lin)/ merged$nmb_lin # calculate
 results.table <- data.frame(ISO_Code = merged$ISO_Code,
                             country  = merged$country,
                             IPAP     = merged$IPAP,
-                            S1_DA_drf= merged$drf,
-                            S1_DA_lin= merged$lin,
-                            S1_NMB_drf= merged$drf * merged$VSL/100000,
-                            S1_NMB_lin= merged$lin * merged$VSL/100000,
-                            S1_NMB_relative = (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin*100)
+                            DA_drf= merged$drf,
+                            DA_lin= merged$lin,
+                            NMB_drf= merged$drf * merged$VSL/100000,
+                            NMB_lin= merged$lin * merged$VSL/100000,
+                            NMB_relative = (merged$nmb_drf-merged$nmb_lin)/merged$nmb_lin*100)
 
-# save results as rda file:
-fullpath <- paste(sensitivity$results.path[s], sep = "/",sensitivity$scenariopath[scenario])
+# save results as rda file, first by setting the correct path and then saving as csv and rda.
+#fullpath <- paste0(sensitivity$results.path[s],... = "/",sensitivity$scenario_path[scenario])
 
-saveRDS(object = results.table, file = fullpath)
-write.csv(x = results.table, file = fullpath)
+# TABLES OF RESULTS
+# write to Rda and csv - the file is the results path, then the scenario path, then either rda or csv:
+saveRDS(object = results.table, 
+        file = paste0(sensitivity$results.path[s],"/",sensitivity$scenario_path[scenario],".Rda"))
+write.csv(x = results.table, 
+          file = paste0(sensitivity$results.path[s],"/",sensitivity$scenario_path[scenario],".csv"))
 
-#return(results.table)
 }

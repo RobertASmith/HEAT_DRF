@@ -1,4 +1,4 @@
-# SETUP
+# deprecated
 
 rm(list=ls())
 

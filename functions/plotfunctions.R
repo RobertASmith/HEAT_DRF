@@ -4,8 +4,14 @@
 # DEATHS AVERTED PLOT
 #===
 
-f.deathsavertedplot <- function(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP", title = " "){
-  plot <- ggplot(data = results.table,
+f_deathsavertedplot <- function(data = NULL,
+                                x = "DA_lin", 
+                                y = "DA_drf" , 
+                                col = "IPAP", 
+                                title = " "
+                                ){
+  
+  plot <- ggplot(data = data,
        aes_string(x=x,y=y,col = col))+
   theme_classic()+
   geom_point()+
@@ -18,8 +24,8 @@ f.deathsavertedplot <- function(x = "S1_DA_lin", y = "S1_DA_drf" , col = "IPAP",
        x = "Linear relationship ", 
        y = "Non-linear relationship")+
   #xlim(0, 150) + ylim(0,150)+
-  geom_label_repel(data = as.data.frame(results.table), 
-                   label = results.table$country, 
+  geom_label_repel(data = as.data.frame(data), 
+                   label = data$country, 
                    size = 2,
                    fill = NA,
                    label.size = NA,
@@ -37,11 +43,15 @@ return(plot)
 # WORLD MAP PLOTS
 #===
 
-f.maprelative <- function(relative = "S1_NMB_relative",title = "",limits = c(-100,100)){
+f_maprelative <- function(relative = "NMB_relative",
+                          title = "",
+                          limits = c(-100,100),
+                          data = results.table,
+                          map.world = map_data('world')){
   
-map.world <- map_data('world')
+#map.world <- map_data('world')
 
-map <- left_join(map.world, results.table, by = c('region' = 'country')) 
+map <- left_join(map.world, data, by = c('region' = 'country')) 
 
 # plot 1 net monetary benefit of dose response function
 plot <- (ggplot(data= map, 
@@ -79,12 +89,16 @@ return(plot)
 }
 
 
-f.mapdoseresponse <- function(doseresponse = "S1_NMB_drf",title = "", limits = c(0,1000)){
+f_mapdoseresponse <- function(doseresponse = "NMB_drf",
+                              title = "", 
+                              limits = c(0,1000),
+                              map.world = map_data('world'),
+                              data = results.table){
   
 
-map.world <- map_data('world')
+#map.world <- map_data('world')
 
-map <- left_join(map.world, results.table, by = c('region' = 'country')) 
+map <- left_join(map.world, data, by = c('region' = 'country')) 
 
 
 
@@ -122,11 +136,3 @@ plot <- (ggplot(data= map,
 return(plot)
 
 }
-
-
-#===
-# PLOT SPECIFIC COUNTRY PA DISTRIBUTION
-#===
-
-
-#hist(metmins[,"Slovenia"])

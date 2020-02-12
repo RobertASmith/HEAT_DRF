@@ -1,4 +1,5 @@
-# RESULTS TABLES FUNCTION
+# RESULTS TABLES FUNCTION deprecated.
+
 
 f.results.table <- function(table = results.table,path){
   
