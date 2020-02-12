@@ -1,0 +1,1333 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.8.20)  10 FEB 2020 14:56
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**s1_results.pdf
+(./s1_results.pdf
+LaTeX2e <2018-12-01>
+
+! LaTeX Error: Missing \begin{document}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.3 3
+      0 obj
+You're in trouble here.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+Missing character: There is no 3 in font nullfont!
+Missing character: There is no 0 in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no b in font nullfont!
+Missing character: There is no j in font nullfont!
+Missing character: There is no < in font nullfont!
+Missing character: There is no < in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no L in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no n in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no h in font nullfont!
+Missing character: There is no 4 in font nullfont!
+Missing character: There is no 9 in font nullfont!
+Missing character: There is no 6 in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no F in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no / in font nullfont!
+Missing character: There is no F in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no D in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no c in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no > in font nullfont!
+Missing character: There is no > in font nullfont!
+Missing character: There is no s in font nullfont!
+Missing character: There is no t in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no m in font nullfont!
+Missing character: There is no x in font nullfont!
+
+! Package inputenc Error: Unicode character Ú¥ (U+06A5)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥
+       TËÓ@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+Missing character: There is no T in font nullfont!
+
+! Package inputenc Error: Unicode character Ë (U+02CE)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TË
+          Ó@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@
+            ^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Unicode character ^^P (U+0010)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P
+               ¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "BC.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼
+                ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F
+                   {²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "B2.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²
+                     ^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Unicode character ^^O (U+000F)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^O
+                        î÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Unicode character î (U+E75E)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî
+                           ÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "F7.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî÷
+                            ^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+! Text line contains an invalid character.
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî÷^^@
+                               ¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+
+! Package inputenc Error: Invalid UTF-8 byte "B9.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî÷^^@¹
+                                 í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8
+                                      "s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no " in font nullfont!
+Missing character: There is no s in font nullfont!
+
+! Package inputenc Error: Unicode character ^^B (U+0002)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B
+                                           ^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Unicode character ^^N (U+000E)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^N
+                                              ÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñ
+                                                Âj—8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 xÚ¥TËÓ@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj
+                                                  —8Š^^]^^D^^?O;~d¼i^^P^^R'K...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "97.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...ËÓ@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—
+                                                  8Š^^]^^D^^?O;~d¼i^^P^^R'Kv...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no 8 in font nullfont!
+
+! Package inputenc Error: Invalid UTF-8 byte "8A.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...Ó@^^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š
+                                                  ^^]^^D^^?O;~d¼i^^P^^R'KvMu...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Unicode character ^^] (U+001D)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^P¼ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]
+                                                  ^^D^^?O;~d¼i^^P^^R'KvMuuU...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Unicode character ^^D (U+0004)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...ç+F{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D
+                                                  ^^?O;~d¼i^^P^^R'KvMuuUß–›...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+! Text line contains an invalid character.
+l.9 ...{²^^Oî÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?
+                                                  O;~d¼i^^P^^R'KvMuuUß–›Ûû ...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+Missing character: There is no O in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no d in font nullfont!
+
+! Package inputenc Error: Invalid UTF-8 byte "BC.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...î÷^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼
+                                                  i^^P^^R'KvMuuUß–›Ûû "D§œ(...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no i in font nullfont!
+
+! Package inputenc Error: Unicode character ^^P (U+0010)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^^@¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P
+                                                  ^^R'KvMuuUß–›Ûû "D§œ(^^_^...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Unicode character ^^R (U+0012)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...¹ í^^^8"s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R
+                                                  'KvMuuUß–›Ûû "D§œ(^^_^^Dš...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+Missing character: There is no ' in font nullfont!
+Missing character: There is no K in font nullfont!
+Missing character: There is no v in font nullfont!
+Missing character: There is no M in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no U in font nullfont!
+
+! Package inputenc Error: Invalid UTF-8 byte "8D.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...s^^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'KvMuuU
+                                                  ß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğ...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Unicode character ß– (U+07D6)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'KvMuuUß–
+                                                  ›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "9B.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...B^^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'KvMuuUß–›
+                                                  Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^NÆñÂj—8Š^^]^^D^^?O;~d¼i^^P^^R'KvMuuUß–›Ûû
+                                                   "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no " in font nullfont!
+Missing character: There is no D in font nullfont!
+
+! Package inputenc Error: Invalid UTF-8 byte "A7.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...Âj—8Š^^]^^D^^?O;~d¼i^^P^^R'KvMuuUß–›Ûû "D§
+                                                  œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "9C.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...j—8Š^^]^^D^^?O;~d¼i^^P^^R'KvMuuUß–›Ûû "D§œ
+                                                  (^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no ( in font nullfont!
+
+! Package inputenc Error: Unicode character ^^_ (U+001F)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^^]^^D^^?O;~d¼i^^P^^R'KvMuuUß–›Ûû "D§œ(^^_
+                                                  ^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Unicode character ^^D (U+0004)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^^D^^?O;~d¼i^^P^^R'KvMuuUß–›Ûû "D§œ(^^_^^D
+                                                  š^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "9A.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^D^^?O;~d¼i^^P^^R'KvMuuUß–›Ûû "D§œ(^^_^^Dš
+                                                  ^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+! Text line contains an invalid character.
+l.9 ...^?O;~d¼i^^P^^R'KvMuuUß–›Ûû "D§œ(^^_^^Dš^^@
+                                                  ^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+
+! Package inputenc Error: Unicode character ^^^ (U+001E)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...;~d¼i^^P^^R'KvMuuUß–›Ûû "D§œ(^^_^^Dš^^@^^^
+                                                  •ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®B...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "95.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...~d¼i^^P^^R'KvMuuUß–›Ûû "D§œ(^^_^^Dš^^@^^^•
+                                                  ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®Bö...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...P^^R'KvMuuUß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*
+                                                  +Êø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no + in font nullfont!
+
+! Package inputenc Error: Unicode character Ê (U+029D)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...R'KvMuuUß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Ê
+                                                  ø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "F8.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...'KvMuuUß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø
+                                                  ˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR^...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "98.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...KvMuuUß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜
+                                                  Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...MuuUß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí
+                                                  ¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "BE.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...uuUß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾
+                                                  n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no n in font nullfont!
+
+! Package inputenc Error: Invalid UTF-8 byte "8F.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...Uß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n
+                                                  »j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^P...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "BB.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...ß–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»
+                                                  j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no j in font nullfont!
+! Missing $ inserted.
+<inserted text> 
+                $
+l.9 ...–›Ûû "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_
+                                                  7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ë...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 9.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 9.
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...û "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò
+                                                  }®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+! Extra }, or forgotten $.
+l.9 ... "D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}
+                                                  ®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{...
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+
+! Package inputenc Error: Invalid UTF-8 byte "AE.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ..."D§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®
+                                                  Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "F6.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...§œ(^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®Bö
+                                                  á.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^^_^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®Böá.ÿ
+                                                  \¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+! Undefined control sequence.
+l.9 ..._^^Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾
+                                                  ^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
+! Package inputenc Error: Unicode character ^^S (U+0013)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...Dš^^@^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^S
+                                                  R^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Unicode character ^^T (U+0014)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...@^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^T
+                                                  ˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "88.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^^^•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ
+                                                  ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜h...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Unicode character ^^P (U+0010)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...•ğÒ^^C*+Êø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^P
+                                                  í„ëpx{{R8ˆ^‡1@D$^^\˜hFØq...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^^C*+Êø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ë
+                                                  px{{R8ˆ^‡1@D$^^\˜hFØqBa2...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "8F.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...Êø˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{
+                                                  R8ˆ^‡1@D$^^\˜hFØqBa2×€¡©	...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "88.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...˜Õí¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ
+                                                  ^‡1@D$^^\˜hFØqBa2×€¡©	¨éN...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+! Missing { inserted.
+<to be read again> 
+                   \begingroup 
+l.9 ...í¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡
+                                                  1@D$^^\˜hFØqBa2×€¡©	¨éNÏy...
+A left brace was mandatory here, so I've put one in.
+You might want to delete and/or insert some corrections
+so that I will find a matching right brace soon.
+(If you're confused by all this, try typing `I}' now.)
+
+
+! Package inputenc Error: Invalid UTF-8 byte "87.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...í¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡
+                                                  1@D$^^\˜hFØqBa2×€¡©	¨éNÏy...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "81.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...¾n»j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡
+                                                  1@D$^^\˜hFØqBa2×€¡©	¨éNÏy¡...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.9 ...j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$
+                                                  ^^\˜hFØqBa2×€¡©	¨éNÏy¡dÖwô...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.9 ...j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$
+                                                  ^^\˜hFØqBa2×€¡©	¨éNÏy¡dÖwô...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.9 ...j_7Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$
+                                                  ^^\˜hFØqBa2×€¡©	¨éNÏy¡dÖwô...
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! Package inputenc Error: Unicode character ^^\ (U+001C)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...Ûò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\
+                                                  ˜hFØqBa2×€¡©	¨éNÏy¡dÖwôğ>{...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "98.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...ò}®Böá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜
+                                                  hFØqBa2×€¡©	¨éNÏy¡dÖwôğ>{3...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no h in font nullfont!
+Missing character: There is no F in font nullfont!
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...öá.ÿ\¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜hFØq
+                                                  Ba2×€¡©	¨éNÏy¡dÖwôğ>{32É)...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no B in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no 2 in font nullfont!
+
+! Package inputenc Error: Unicode character ×€ (U+05C0)
+(inputenc)                not set up for use with LaTeX.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...¾^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜hFØqBa2×€
+                                                  ¡©	¨éNÏy¡dÖwôğ>{32É)^^]Ák...
+
+You may provide a definition with
+\DeclareUnicodeCharacter 
+
+
+! Package inputenc Error: Invalid UTF-8 byte "A1.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜hFØqBa2×€¡
+                                                  ©	¨éNÏy¡dÖwôğ>{32É)^^]ÁkE...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "A9.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^SR^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜hFØqBa2×€¡©
+                                                  	¨éNÏy¡dÖwôğ>{32É)^^]ÁkE2...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte "A8.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...R^^Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜hFØqBa2×€¡©	¨
+                                                  éNÏy¡dÖwôğ>{32É)^^]ÁkE2ÎG...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...Tˆ^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜hFØqBa2×€¡©	¨éNÏ
+                                                  y¡dÖwôğ>{32É)^^]ÁkE2ÎG>I)...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no y in font nullfont!
+
+! Package inputenc Error: Invalid UTF-8 byte "A1.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...^^Pí„ëpx{{R8ˆ^‡1@D$^^\˜hFØqBa2×€¡©	¨éNÏy¡
+                                                  dÖwôğ>{32É)^^]ÁkE2ÎG>I)^^...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+Missing character: There is no d in font nullfont!
+
+! Package inputenc Error: Invalid UTF-8 byte sequence.
+
+See the inputenc package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.9 ...í„ëpx{{R8ˆ^‡1@D$^^\˜hFØqBa2×€¡©	¨éNÏy¡dÖw
+                                                  ôğ>{32É)^^]ÁkE2ÎG>I)^^Yj^...
+
+The document does not appear to be in UTF-8 encoding.
+Try adding \UseRawInputEncoding as the first line of the file
+or specify an encoding such as \usepackage [latin1]{inputenc}
+in the document preamble.
+Alternatively, save the file in UTF-8 using your editor or another tool
+
+! Text line contains an invalid character.
+l.9 ...—ö Õ²¥ö–¡B^^CÑ˜^^Y³Ö<{ˆ‘<Üv×¼ÆÒ|=Ÿá²#Òğ^^?
+                                                  Ù½ªsd
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.24 xÚ·^^ET”kÛ6Œtˆ¤„Ô !=t#İİ 9À^^@
+                                    CÌ^^P#1¤t7Hƒ´Òİ%) HˆtHH£tóáŞûy·Ïûÿk}ßšµ˜...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.26 gçâà^^T^^FH«ª*rq^^B89y889¹±^^Y^^Xt p^^Gğ^^?
+                                                ìØ^^Lz`^^WW^^H^^L*üG„´^^X^^...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.26 ...t p^^Gğ^^?ìØ^^Lz`^^WW^^H^^L*üG„´^^X^^D^^?
+                                                  °É€à^^Oª0(@éµ^^C€‹^^GÀÅ/Ì...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.28 ^^@
+        ‚Zı^^N^^D9¸Â^^^òAn ˆ^^CÈâ!à/ê €œ¤&^^@ôĞá?ı¹Zº@œà®^^\®^^P‡ß=^^B^^?—y¸...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.28 ^^@‚Zı^^N^^D9¸Â^^^òAn ˆ^^CÈâ!à/ê €œ¤&^^@
+                                             ôĞá?ı¹Zº@œà®^^\®^^P‡ß=^^B^^?—y¸...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.28 ...Èâ!à/ê €œ¤&^^@ôĞá?ı¹Zº@œà®^^\®^^P‡ß=^^B^^?
+                                                  —y¸fY¨•4ÌÑ^^Q^^L…»bÿæ'^^Cq...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.28 ...áÚCaîP¯ÿ k^^HÔÊúw^^[V¯€ºPˆók°¢Ì?1^^O&ì^^?
+                                                  m6`8€SP€G^^O^^@v^^F€=,m...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.28 ...^^[V¯€ºPˆók°¢Ì?1^^O&ì^^?m6`8€SP€G^^O^^@
+                                                  v^^F€=,m¿^^OĞñt^^Bÿåäúm~è...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.28 ...^Bÿåäúm~èÁÇË	æ^^D°~h^^Cì^^C±^^F?|a{¹‚ÜÀ^^@
+                                                  ¸Ëk°×ŸÿFØ\\^^@+ˆ%^^\`^^A...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.28 ...D°~h^^Cì^^C±^^F?|a{¹‚ÜÀ^^@¸Ëk°×ŸÿFØ\\^^@
+                                                  +ˆ%^^\`^^A¶@±ÿ­ş`^^F[ÿ^^...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.30 ÿkÄ@9]yuC^^CÖ^^?
+                     Zş^^_§”^^TÌ^^CàÅÎÃ
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.32 ...^D^^^^^^|ş»^^F^^Hò^^O?r^^U¡Ö0Àïb¿ù>\Ô^^?
+                                                  8»ı#^^B¦^^?6„^^YğßÅÔ`^^OÒ^...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.32 ...^^F^^Hò^^O?r^^U¡Ö0Àïb¿ù>\Ô^^?8»ı#^^B¦^^?
+                                                  6„^^YğßÅÔ`^^OÒ^^E^^C˜şUº1'...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.32 ...ú;àÿã^^G9B^^\<ÿ‰xîkøÃ^^Z¨Â^^^–^^Aú¿CõÁ^^?
+                                                  ï®*Ø
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.33 òÚñ^^?
+           {^^Uá ‡u„Ú<Hš‹—ƒ“÷o;ÄU^^Nâ^^A¶Ò€À-mÿ–Íßvİßç^^@‚5`®ß¯˜‡,NÎÿå{...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.33 ...u„Ú<Hš‹—ƒ“÷o;ÄU^^Nâ^^A¶Ò€À-mÿ–Íßvİßç^^@
+                                                  ‚5`®ß¯˜‡,NÎÿå{Ø2Kû‡×ˆëƒ6...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.33 ...‚5`®ß¯˜‡,NÎÿå{Ø2Kû‡×ˆëƒ6ÿv\^^_V^^Nş× ^^?
+                                                  cğÃRı7^^OY¨%Ìê÷öqóñ^^C@.. ...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.34 ^^@
+        Zÿ^^Ay^^@@›? ^^_^^@^^Hù^^C>ğ°ÿ^^C>^^Pqø^^_ÈÿpÃï[ù×ÿ@Æñ_ø ] ô^^Oø@^^...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.34 ^^@Zÿ^^Ay^^@
+                 @›? ^^_^^@^^Hù^^C>ğ°ÿ^^C>^^Pqø^^_ÈÿpÃï[ù×ÿ@Æñ_ø ] ô^^Oø@^^...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.34 ^^@Zÿ^^Ay^^@@›? ^^_^^@
+                           ^^Hù^^C>ğ°ÿ^^C>^^Pqø^^_ÈÿpÃï[ù×ÿ@Æñ_ø ] ô^^Oø@^^...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.34 ...^^Oø@^^Dö^^G| âôo^^_^^O¥^^^ô^^Hûƒ9^^W/^^@
+                                                  èò^^G|àöïaü^^OÕ\^^]@®¶^^?^...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.34 ...^^^ô^^Hûƒ9^^W/^^@èò^^G|àöïaü^^OÕ\^^]@®¶^^?
+                                                  ^^Dğ^^C€ğ?à^^Cù×^^?À‡^^SÜş...
+A funny symbol that I can't read has just been input.
+Continue, and I'll forget that it ever happened.
+
+! Text line contains an invalid character.
+l.34 ...^^G|àöïaü^^OÕ\^^]@®¶^^?^^Dğ^^C€ğ?à^^Cù×^^?
+                                                  À‡^^SÜş…Ü^^Oä<ş€^^Oå<ÿ‚ÿ5H...
+(That makes 100 errors; please try again.) 
+Here is how much of TeX's memory you used:
+ 27 strings out of 494553
+ 282 string characters out of 6175904
+ 53146 words of memory out of 5000000
+ 3797 multiletter control sequences out of 15000+600000
+ 3640 words of font info for 14 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 18i,4n,12p,294b,67s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+!  ==> Fatal error occurred, no output PDF file produced!

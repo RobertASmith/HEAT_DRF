@@ -1,3 +1,13 @@
+# ====== #
+# Author:   Robert Smith
+# Contact:  rasmith3@sheffield.ac.uk
+# Project: HEAT Dose Response Function
+# Description: This script uses the method described in Hafner et al. 2019 to create distributions of physical activity.
+#              It relies on data from HSE 2017 to create a generic distribution which is combined with information on prevalence of 
+#               insufficient physical activity to create distributions for each country. .  
+# ====== #
+
+
 #===
 # setup
 #===
@@ -54,6 +64,7 @@ df <- df %>% mutate(country = recode(country,
                                      "Cote d'Ivoire"= "Ivory Coast",
                                      "Iran (Islamic Republic of)" = "Iran",
                                      "Trinidad and Tobago" = "Trinidad")) %>% 
+              
               filter(country != "Democratic Republic of the Congo")
 
 
@@ -185,11 +196,11 @@ metmins_long <- melt(metmins,
 
 ggsave(plot = 
          
-         ggplot(metmins_long %>% filter(country %in% c("UK",                                            "UK",
-                                              "France",
-                                              "Portugal",
-                                              "Ukraine",
-                                              "Germany")))+
+         ggplot(metmins_long %>% filter(country %in% c("UK",
+                                                       "France",
+                                                       "Portugal",
+                                                       "Ukraine",
+                                                       "Germany")))+
         geom_line(aes(x = percentile, y = metmins,col = country))+
         theme_classic()+
         labs(title = "Physical Activity in 5 HEAT countries",

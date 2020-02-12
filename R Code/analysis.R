@@ -1,13 +1,72 @@
+# ====== #
+# Author:   Robert Smith
+# Contact:  rasmith3@sheffield.ac.uk
+# Project: HEAT Dose Response Function
+# Description: This script loads all necessary functions and then runs the HEAT model, and the VSLY model for:
+#              Each of three scenarios, with sensitivity analysis for various values of t. This means a lot of data.  
+# ====== #
+# SETUP
+
+rm(list=ls())
+
+# multi package check, install, n load function courtesy of Paul Schneider
+install_n_load <- function(packages){
+  for(package in packages){
+    if(eval(parse(text=paste('require(',package,')')))==0) {
+      install.packages(package)
+    }
+    eval(parse(text=paste('require(',package,')')))
+  }
+}
+required_packages = c('haven','psych','survival','tidyverse',
+                      'stringr','pdftools','reshape2','ggplot2',
+                      'tidyr','mc2d','ggrepel','knitr','xtable',
+                      'gridExtra','kableExtra','dplyr','rgeos','rworldmap',
+                      'flextable','viridis','rlang','readxl','foreign','Rcpp')
+
+
+
+#=== 
+# PACKAGE INSTALL
+#===
+
+#ibrary(tidyverse)
+#library(stringr)
+#library(pdftools)
+#library(reshape2)
+#library(ggplot2)
+#library(tidyr)
+#library(mc2d)
+#library(ggrepel) 
+#library(knitr)
+#library(xtable)
+#library(gridExtra)
+#library(kableExtra)
+#library(dplyr)
+#library(rgeos)
+#library(rworldmap)
+#library(flextable)
+#library(viridis)
+#library(rlang)     #ensures can read from excel
+#library(readxl)    # Ensure can read from excel
+#library(foreign)   # Foreign Package ensures that read.dta works.
+#library(Rcpp)      # so can read from excel.
+
+
+rm(list=ls())
+
 # set-up libraries etc.
   source(file = "functions/setup.R")
+# load and clean data
+  source(file = "functions/load_and_clean.R")
+# load function which runs the model.
+  source(file = "functions/model.R")
 # load plotting functions
   source(file = "functions/plotfunctions.R")
 # load model functions
-  source(file = "functions/modelfunctions.R")
+#  source(file = "functions/modelfunctions.R") # DEPRECATED.
 # load results table function
-  source(file = "functions/results_tables.R")
-# load and clean data
-  source(file = "functions/load_and_clean.R")
+#  source(file = "functions/results_tables.R") # DEPRECATED.
 
 #====
 # Plot of the different relative risks using:
@@ -21,14 +80,25 @@
 # Done in ggplot in seperate pdf.
 #===
 
+temp <- melt(data = metmins,value.name = "metmins",variable.name = "country") %>%    # melt dataset so can be used by ggplot
+  group_by(country) %>%               # group by country
+  mutate(percentile = row_number())   # give numbers based on percentiles
+
+# create lineplot with percentiles on x axis and met-mins on right axis for several countries.
+ggplot(data = temp %>% filter(country %in% c("Andorra","France","UK","Bulgaria","Greece","Spain")), 
+       aes(x = percentile,y = metmins,col = country)) +
+  geom_line()
+
+temp <- kable(metmins)
+
 #=================== INITIALISE ===============================#
 
 countries <- intersect(merged$country,colnames(metmins))   # identify countries which can analyse
-merged$drf <- NA                              # create column for dose response estimate net benefit
-merged$lin <- NA                              # create column for linear response estimate net benefit
+#merged$drf <- NA                              # create column for dose response estimate net benefit
+#merged$lin <- NA                              # create column for linear response estimate net benefit
 
 # set parameters as from HEAT manual, 168mins at 3METS, 0.89 RR.
-b = 168*3 ; a = 0.89 ; p = 1:3000
+b = 168 ; a = 0.89 ; p = 1:3000
 
 #====
 # ANALYSIS
@@ -49,29 +119,69 @@ sensitivity <- list(
                    'output/t50/results',
                    'output/t75/results'),
   
-  t =      c(0.375, 0.25, 0.5, 0.75)
+  t =      c(0.375, 0.25, 0.5, 0.75),
+  
+  scenario.path = c("S1results",
+                    "S2results", 
+                    "S3results")
   
 )
 
-# run the analysis for each value of t
+# ====
+# SCENARIO 1
+# ====
+
+# run the analysis for each value of t, send results to output results.
 for(s in 1:4){
 
-  # change parameters, t is either 0.375, 0.25,0.5 or 0.75
-  t <- sensitivity$t[s]
+  f_model(t = sensitivity$t[s],
+               metmins = metmins,
+               a = a,
+               increase = 210,
+               b = b,
+               merged = merged,
+               scenario = 1,
+               countries = countries,
+               s = s,
+               sensitivity = sensitivity)
   
-  # where the files are saved to changes based on t
-  path = sensitivity$fig.path[s]
+  f_model(t = sensitivity$t[s],
+               metmins = metmins,
+               a = a,
+               b = b,
+               merged = merged,
+               scenario = 2,
+               countries = countries,
+               s = s,
+               sensitivity = sensitivity)
   
-  # run scenarios given the new value of t
-  source(file = "functions/scenario1.R")
-  source(file = "functions/scenario2.R")
-  source(file = "functions/scenario3.R")
+  f_model(t = sensitivity$t[s],
+               metmins = metmins,
+               a = a,
+               b = b,
+               merged = merged,
+               scenario = 3,
+               countries = countries,
+               s = s,
+               sensitivity = sensitivity)
+  
+}
+
+
+# use results to create figures #
+
+
+
+
+# fin :)
+
+# NOTE: include all plots function below to make all plots (since plots rely on multiple datasets)
   
   # save tables to appropriate path
-  saveRDS(object = results.table,file = paste(sensitivity$results.path[s],sep = "/","results.R")) # store results table as R file.
-  f.results.table(path = sensitivity$results.path[s])
+#  saveRDS(object = results.table,file = paste(sensitivity$results.path[s],sep = "/","results.rda")) # store results table as R file.
+  #f.results.table(path = sensitivity$results.path[s])
   
   # create plots, uses path from above
-  source('functions/all_plots.R')
-}
+  #source('functions/all_plots.R')
+
 

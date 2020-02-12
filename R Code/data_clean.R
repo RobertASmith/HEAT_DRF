@@ -1,3 +1,12 @@
+# ====== #
+# Author:   Robert Smith
+# Contact:  rasmith3@sheffield.ac.uk
+# Project: HEAT Dose Response Function
+# Description: This script uses a package called pdftools to read in tables with  
+# prevalences of insufficient Physical Activity from Guthuld et al.
+# These figures are then saved in a csv called guthold and used to create PA distributions
+# ====== #
+
 #===
 # setup
 #===
@@ -120,4 +129,5 @@ df <- df %>% mutate(country = recode(country,  "United Kingdom" = 'UK',
                                "Trinidad and Tobago" = "Trinidad"))
 
 write.csv(df,file = "data/guthold.csv")
+
 
