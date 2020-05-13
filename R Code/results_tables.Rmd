@@ -1,0 +1,148 @@
+---
+title: "Results Tables"
+author: "Robert Smith"
+date: "12 February 2020"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+
+scenario_names = c("Scenario 1 Every person walks an additional 10 mins daily",
+                     "Scenario 2 Every person meets WHO Guidelines",
+                     "Scenario 3 10 percent increase in activity for every person")
+
+
+library(dplyr)
+options(kableExtra.latex.load_packages = FALSE) # stops Kable trying to load loads of unnecessary functions.
+library(kableExtra)
+library(tinytex)
+
+```
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+
+results.table1 <- read.csv(file = "../output/t375/results/S1.csv") %>%  # double dot to go back one file
+                    select(country,DA_drf,DA_lin,NMB_drf,NMB_lin)
+
+kable(results.table1,
+      digits = 2,
+      row.names = FALSE,
+      format = "latex",
+      col.names = c("Country","non-linear response","linear dose response",
+                    "non-linear response","linear dose response"),
+      align = c('l','c','c','c','c'),
+      #padding = 2,
+      caption = paste(scenario_names[1]))%>%
+      #kable_styling(full_width = T) %>% 
+      add_header_above(c(" " = 1, 
+                         "Annual Deaths Averted per 100,000" = 2, 
+                         "Net Monetary Benefit in 2016 USD" = 2))# %>%
+#footnote(general = "Results for sensitivity analysis available on author's GitHub")
+```
+
+\pagebreak
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE}
+
+results.table2 <- read.csv(file = "../output/t375/results/S2.csv") %>%  # double dot to go back one file
+                    select(country,DA_drf,DA_lin,NMB_drf,NMB_lin)
+
+kable(results.table2,
+      digits = 2,
+      row.names = FALSE,
+      col.names = c("Country","non-linear response","linear dose response",
+                    "non-linear response","linear dose response"),
+      align = c('l','c','c','c','c'),
+      caption = paste(scenario_names[2]))%>%
+      add_header_above(c(" " = 1, 
+                              "Annual Deaths Averted per 100,000" = 2, 
+                              "Net Monetary Benefit in 2016 USD" = 2)) #%>%
+#footnote(general = "Results for sensitivity analysis available on author's GitHub")
+
+```
+
+\pagebreak
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE,eval=TRUE}
+
+results.table3 <- read.csv(file = "../output/t375/results/S3.csv") %>%  # double dot to go back one file
+                    select(country,DA_drf,DA_lin,NMB_drf,NMB_lin)
+
+kable(results.table3,
+      digits = 2,
+      row.names = FALSE,
+      col.names = c("Country","non-linear response","linear dose response",
+                    "non-linear response","linear dose response"),
+      align = c('l','c','c','c','c'),
+      caption = paste(scenario_names[3]))%>%
+      add_header_above(c(" " = 1, 
+                              "Annual Deaths Averted per 100,000" = 2, 
+                              "Net Monetary Benefit in 2016 USD" = 2)) 
+#footnote(general = "Results for sensitivity analysis available on author's GitHub")
+
+```
+
+
+```{r,echo=FALSE,warning=FALSE,message=FALSE,eval=FALSE}
+
+results.table3 <- read.csv(file = "../output/t375/results/S3.csv") %>%  # double dot to go back one file
+                    select(country,DA_drf,DA_lin,NMB_drf,NMB_lin)
+
+library(flextable)
+library(magrittr)
+results.table3 %>% 
+  #round(digits = 2) %>%
+  regulartable() %>% 
+  autofit() %>% 
+  width(j=~country,width=2) %>% 
+  width(j=~DA_drf,width=1)%>%
+  width(j=~DA_lin,width=1)%>%
+  width(j=~NMB_drf,width=1)%>%
+  width(j=~NMB_lin,width=1) %>% 
+  set_header_labels(country = "Country", 
+                    DA_drf = "non-linear", 
+                    DA_lin = "linear",
+                    NMB_drf = "non-linear",
+                    NMB_lin = "linear") %>% 
+  add_header_row(values = c("", "Annual Deaths Averted per 100,000", 
+                            "Annual Deaths Averted per 100,000", 
+                            "Net Monetary Benefit in 2016 USD", 
+                            "Net Monetary Benefit in 2016 USD"),
+                 top = TRUE )%>%  
+  merge_at(i = 1, j = 2:3, part = "header")%>%  
+  merge_at(i = 1, j = 4:5, part = "header")%>%
+   
+  # add cool bars
+  compose(j = "DA_lin", 
+          value = as_paragraph(
+            minibar(DA_lin), 
+            " ", 
+            as_chunk(DA_lin, formater = function(x) sprintf("%.01f", x))
+            )
+          ) %>% 
+  compose(j = "DA_drf", 
+          value = as_paragraph( minibar(DA_drf), 
+                                " ",
+                                as_chunk(DA_drf, 
+                                         formater = function(x) sprintf("%.01f", x) )
+                                )
+          ) %>% 
+  align(j = 2:3, align = "left")
+  
+
+
+
+
+```
+
+

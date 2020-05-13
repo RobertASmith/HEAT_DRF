@@ -1,52 +1,60 @@
 #===
 # CREATE DOSE/LINEAR RELATIVE RISKS PLOT
 #===
+library(ggplot2)
+library(reshape2)
 
-# New dose response relationship, using Woodcock et al. 2011 (https://doi.org/10.1093/ije/dyq104).
-# Have therefore replaced other studies by Kelly et al., 2014 and Aram et al. 2015.
+# This script simply takes the sose response relationships from Kahlmeier et al. & Woodcock et al. & plots them.
 #
-# Method basically turns linear relationship plotted here:
-x <-  1:3000        # range of met-mins on x axis
-y <- (1 - (1 - 0.89) * (x/168))  ;  y[y<0.7] <- 0.7   # y axis simply linear relationship
+# using Woodcock et al. 2011 (https://doi.org/10.1093/ije/dyq104).
 
-plot(x = x,
-     y = y,
-     type = "l", 
-     xlab = 'Weekly MET-mins', 
-     ylim = c(0.5,1),
-     ylab = "Relative Risk",
-     main = "Relative risk using linear & non-linear \n dose response relationship"
+
+
+
+f_keepworkenvironmentclear <- function(){
+  
+  b = 168 ; a = 0.89 ; p = 1:3000
+
+# linear data
+temp <- data.frame (mets = p,
+                    lin=(1 - (1 - a) * (p/b))) 
+temp$lin[temp$lin<0.7] <- 0.7
+
+#non-linear data
+t = 0.25 ; temp$t25 = a^(p/b*3)^t
+t = 0.5  ; temp$t50 = a^(p/b*3)^t
+t = 0.75  ; temp$t75 = a^(p/b*3)^t
+t = 0.375  ; temp$t375 = a^(p/b*3)^t
+
+temp <- melt(data = temp,id.vars = "mets",measure.vars = colnames(temp)[2:6],variable.name = "type",value.name = "rr")
+
+
+ggsave(filename = "Risk Functions.pdf",
+       path = "output",
+       device = "pdf",
+       width = 3.93*2, height = 4.99*2,
+       plot= ggplot(data = temp)+
+                geom_line(aes(x=mets,y=rr,col = type))+
+  
+              theme_classic()+
+              
+              labs(title = "Relative risk using linear & non-linear dose response relationship",
+                   y = 'Relative Risk of Mortality',
+                   x = 'Weekly MET-mins',
+                   caption = "Sources: Kahlmeier et al., 2017 ; Woodcock et al., 2011") +
+              
+              scale_fill_manual(aesthetics = "col",values = c("black", "red", "purple","blue","green"))+
+              
+              theme(legend.position = c(0.2,0.2),
+                    legend.title = element_blank(),
+                    legend.key.width = unit(0.5,"cm"),
+                    legend.background = element_blank())
 )
+}
+f_keepworkenvironmentclear()
 
-legend('topright', 
-       cex = 0.7,
-       legend = c("Linear","0.25","0.375","0.5","0.75"),
-       lty = c(1,2,3,4,5), 
-       col = c("black","black","blue","black","black"),
-       title = "Power Transformation",
-       bty = "n")
 
-# Into a curve using equation: RR = a^(p/b)^t     # From Oliver Mytton PhD Thesis page 140
-# where a = reference RR, b = reference metmins, t = log transformation, p = physical activity levels (met-mins/wk).
-
-# set parameters as from HEAT manual, 168mins at 3METS, 0.89 RR.
-b = 168*3 ; a = 0.89 ; p = x
-
-# 0.25 power transformation
-t = 0.25
-lines(x = p, y = a^(p/b)^t, lty = 2)
-
-# 0.5 power transformation
-t = 0.5
-lines(x = p, y = a^(p/b)^t, lty = 4)
-
-# 0.75 power transformation
-t = 0.75
-lines(x = p, y = a^(p/b)^t, lty = 5)
-
-# 0.375 power transformation (as per Woodcock et al.)
-t = 0.375 
-lines(x = p, y = a^(p/b)^t, lty = 3, col = "blue")
-
-# I use the value 0.375 throughout as done by Woodcock et al. 2010 (https://doi.org/10.1093/ije/dyq104).
-# Then I vary the analysis using the others as sensitivity analysis.
+  
+  
+  
+  

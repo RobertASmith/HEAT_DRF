@@ -28,16 +28,16 @@ rr.metmins <-  a^(metmins/b*3)^t
 if(scenario == 1){
   # Change METmins according to scenario, 10mins, 7 days, 3METs = 210METmins
   metmins.new <- metmins + increase
-  print(scenario)
+  print(paste0("running scenario",scenario))
 } else {
   if(scenario == 2){
     # Change METmins according to scenario, all those below 600 mets increase to 600 met-mins.
     metmins.new <- metmins ;  metmins.new[metmins.new<600] <- 600
-    print(scenario)
+    print(paste0("running scenario",scenario))
   } else {
     if(scenario == 3){
       metmins.new <- metmins*1.1  # create a new set of met-mins 10% higher
-      print(scenario)
+      print(paste0("running scenario",scenario))
     } else {
       stop("warning") # return an error if the input is not 1,2 or 3.
     }

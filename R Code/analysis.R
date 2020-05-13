@@ -108,7 +108,7 @@ sensitivity <- list(
 
 # run the analysis for each value of t, send results to output results.
 for(s in 1:4){
-
+print(paste0("model with t=",sensitivity$t[s]))
   # scenario 1
   
   f_model(t = sensitivity$t[s],
