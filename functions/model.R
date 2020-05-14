@@ -6,7 +6,8 @@ f_model <- function(a = 0.89, b = 168, t = t, s = s,
                     metmins = metmins, merged = merged, 
                     countries = countries,
                     sensitivity = sensitivity,
-                    increase = NULL, scenario = NULL){
+                    increase = NULL, scenario = NULL,
+                    walking_mets = 4){
   # t is the power transformation, metmins the orginal metmins, 
   # a is the reference relative risk
   # b is the reference physical activity level in mets
@@ -22,7 +23,7 @@ f_model <- function(a = 0.89, b = 168, t = t, s = s,
 # =========== #
   
 # Estimate BEFORE scenario relative risks
-rr.metmins <-  a^(metmins/b*3)^t
+rr.metmins <-  a^(metmins/b*walking_mets)^t
 
 
 if(scenario == 1){
@@ -45,7 +46,7 @@ if(scenario == 1){
 }
 
 # estimate AFTER scenario relative risks
-rr.metmins.new <- a^(metmins.new/b*3)^t
+rr.metmins.new <- a^(metmins.new/b*walking_mets)^t
 
 # calculate risk change in non-linear model 
 risk.change <- rr.metmins[,countries] - rr.metmins.new[,countries]
@@ -59,7 +60,7 @@ merged$drf <- colMeans(risk.change * merged$mortrisk[match(merged$country,countr
 # ====== #
 
 # estimate change in minutes of walking in linear model
-increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / 3
+increase.walk <- sum(metmins.new - metmins)/ (ncol(metmins)*nrow(metmins)) / walking_mets
 
 # estimate linear function risk change.
 rr.S1.ldrf <- 1 - (1 - a) * (increase.walk/b)  # scenario 1 is 10 mins walking per person
