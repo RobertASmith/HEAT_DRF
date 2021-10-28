@@ -6,54 +6,58 @@
 #              Each of three scenarios, with sensitivity analysis for various values of t. This means a lot of data.  
 # ====== #
 
+rm(list=ls())  # == SETUP
 
-# ========= SETUP
-
-rm(list=ls())
-
-# multi package check, install and n load function courtesy of Paul Schneider
-install_n_load <- function(packages){
-  for(package in packages){
-    if(package %in% rownames(installed.packages()) == FALSE) {
-      print(paste("installing",package))
-      install.packages(package)
-    }
-    eval(parse(text=paste('require(',package,')')))
-  }
-}
-
-required_packages = c('knitr','survival','tidyverse',
-                      'stringr','pdftools','reshape2','ggplot2',
-                      'tidyr','mc2d','ggrepel','knitr','xtable',
-                      'gridExtra','kableExtra','dplyr','rgeos','rworldmap',
-                      'flextable','viridis','rlang','readxl','foreign','Rcpp')
-
-install_n_load(required_packages) 
+pacman::p_load(
+  'knitr',
+  'survival',
+  'tidyverse',
+  'stringr',
+  'pdftools',
+  'reshape2',
+  'ggplot2',
+  'tidyr',
+  'mc2d',
+  'ggrepel',
+  'knitr',
+  'xtable',
+  'gridExtra',
+  'kableExtra',
+  'dplyr',
+  'rgeos',
+  'rworldmap',
+  'flextable',
+  'viridis',
+  'rlang',
+  'readxl',
+  'foreign',
+  'Rcpp',
+  'reactable',
+  'gplots'
+) 
 
 # load and clean data
-  source(file = "functions/load_and_clean.R")
+  source(file = "R/load_and_clean.R")
 # load function which runs the model.
-  source(file = "functions/model.R")
+  source(file = "R/model.R")
 # load plotting functions
-  source(file = "functions/plotfunctions.R")
-# load model functions
-#  source(file = "functions/modelfunctions.R") # DEPRECATED.
-# load results table function
-#  source(file = "functions/results_tables.R") # DEPRECATED.
+  source(file = "R/plotfunctions.R")
 
 #====
 # Plot of the different relative risks using:
 # linear relationship, power transformation 0.25,0.375,0.5,0.75
 #====
 
-  source(file = "functions/relativerisksplot.R")
+  source(file = "R/relativerisksplot.R")
   
 #===
 # See plot of PA distributions for 5 countries.
 # Done in ggplot in seperate pdf.
 #===
 
-temp <- melt(data = metmins,value.name = "metmins",variable.name = "country") %>%    # melt dataset so can be used by ggplot
+temp <- melt(data = metmins,
+             value.name = "metmins",
+             variable.name = "country") %>%    # melt dataset so can be used by ggplot
   group_by(country) %>%               # group by country
   mutate(percentile = row_number())   # give numbers based on percentiles
 
