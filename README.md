@@ -1,6 +1,8 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/RobertASmith/HEAT_DRF?color=red&style=plastic)
 ![GitHub top language](https://img.shields.io/github/languages/top/RobertASmith/HEAT_DRF?style=plastic)
 ![GitHub repo size](https://img.shields.io/github/repo-size/RobertASmith/HEAT_DRF?style=plastic)
+[![GitHub release](https://img.shields.io/badge/R-HEDS-green)](https://img.shields.io/badge/R-hello-green)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # A comparison of WHO-HEAT model results using a non-linear physical activity dose response function with results from the existing tool.
 
