@@ -13,7 +13,7 @@ pacman::p_load(
   'survival',
   'tidyverse',
   'stringr',
-  'pdftools',
+  #'pdftools',
   'reshape2',
   'ggplot2',
   'tidyr',
@@ -25,15 +25,15 @@ pacman::p_load(
   'kableExtra',
   'dplyr',
   'rgeos',
-  'rworldmap',
+  #'rworldmap',
   'flextable',
   'viridis',
   'rlang',
   'readxl',
   'foreign',
-  'Rcpp',
-  'reactable',
-  'gplots'
+  'Rcpp'#,
+  #'reactable',
+  #'gplots'
 ) 
 
 # load and clean data
@@ -113,8 +113,9 @@ sensitivity <- list(
 # run the analysis for each value of t, send results to output results.
 for(s in 1:4){
 print(paste0("model with t=",sensitivity$t[s]))
-  # scenario 1
   
+  # scenario 1: 
+  # 10mins additional daily walking for all = 210 mets 
   f_model(t = sensitivity$t[s],
                metmins = metmins,
                a = a,
@@ -125,8 +126,9 @@ print(paste0("model with t=",sensitivity$t[s]))
                countries = countries,
                s = s,
                sensitivity = sensitivity)
-  # scenario 2
-       
+  
+  # scenario 2:
+  # all individuals with activity levels below WHO physical activity guidelines of 600 MET-mins per week increase activity to meet guidelines
   f_model(t = sensitivity$t[s],
                     metmins = metmins,
                     a = a,
@@ -138,7 +140,7 @@ print(paste0("model with t=",sensitivity$t[s]))
                     sensitivity = sensitivity)
        
   # scenario 3
-       
+  # 10% increase for all...     
   f_model(t = sensitivity$t[s],
                     metmins = metmins,
                     a = a,
@@ -153,7 +155,7 @@ print(paste0("model with t=",sensitivity$t[s]))
 
 
 # this file creates all the plots for t = 0.375, it can easily be adapted to create plots for other levels of t
-source('functions/all_plots.R')
+source('R/all_plots.R')
 
 
 # fin :)
