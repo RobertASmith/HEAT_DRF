@@ -8,11 +8,11 @@
 
 Authors: Robert Smith<sup>1</sup>, Chloe Thomas<sup>1</sup>, Hazel Squires<sup>1</sup> & Elizabeth Goyder<sup>1</sup>
 
-<sup>1 School of Health and Related Research, University of Shefﬁeld, Regents Court, UK, S1 4DA </sup>
-<sub> Corresponding Author: Robert A Smith (rasmith3@sheffield.ac.uk) </sup>
-<sub> Keywords: Physical Activity, Dose Response Function, HEAT, Walking, Cycling. </sup>
-<sub> Acknowledgements:  The authors would like to thank Martin Stepanek & Marco Hafner for detailed explanations explaining their method to estimate country physical activity distributions. We would also like to thank Sonja Kahlmeier, Thomas Gostski & Alberto Castro Fernandez for providing details of and access to the HEAT model and data. </sup>
-<sub> Funding Sources: Robert Smith is joint funded by the Wellcome Trust Doctoral Training Centre in Public Health Economics and Decision Science [108903/Z/19/Z] and the University of Shefﬁeld </sup>
+<sup>1 School of Health and Related Research, University of Shefﬁeld, Regents Court, UK, S1 4DA </sup>  
+<sub> Corresponding Author: Robert A Smith (rasmith3@sheffield.ac.uk) </sup>  
+<sub> Keywords: Physical Activity, Dose Response Function, HEAT, Walking, Cycling. </sup>  
+<sub> Acknowledgements:  The authors would like to thank Martin Stepanek & Marco Hafner for detailed explanations explaining their method to estimate country physical activity distributions. We would also like to thank Sonja Kahlmeier, Thomas Gostski & Alberto Castro Fernandez for providing details of and access to the HEAT model and data. </sup>  
+<sub> Funding Sources: Robert Smith is joint funded by the Wellcome Trust Doctoral Training Centre in Public Health Economics and Decision Science [108903/Z/19/Z] and the University of Shefﬁeld </sup>  
 
 ## Abstract
 
