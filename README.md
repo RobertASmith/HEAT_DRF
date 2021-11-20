@@ -8,7 +8,7 @@
 
 Authors: Robert Smith<sup>1</sup>, Chloe Thomas<sup>1</sup>, Hazel Squires<sup>1</sup> & Elizabeth Goyder<sup>1</sup>
 
-<sup>1</sup> School of Health and Related Research, University of Shefﬁeld, Regents Court, UK, S1 4DA
+<sup>1 School of Health and Related Research, University of Shefﬁeld, Regents Court, UK, S1 4DA </sup>
 
 <sub> Corresponding Author: Robert A Smith (rasmith3@sheffield.ac.uk) </sup>
 
@@ -52,11 +52,5 @@ This will run the `analysis.R` script which:
 > 6) uses `R/all_plots.R` to read in all the results from the csvs created above, and plots the results, saving them to the 'outputs' folder.
 
 As I mentioned, it would be nice to have time to refactor this code, but unfortunately this project was time limited. If you are interested in building upon this work please contact me directly.
-
-## Plot from the analysis
-![The estimated benefits of increased walking for a country depend on the shape of the dose response function between physical activity and mortality, and the distribution of physical activty in the country.](https://github.com/RobertASmith/HEAT_DRF/blob/c9bc4c6306a71a8fedbe1906d27ee4da418c8324/output/t375/figures/S1_RelativeResults.pdf)
-Many thanks,
-
-Rob
 
 
