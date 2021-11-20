@@ -48,6 +48,10 @@ This will run the 'analysis.R' script which:
 ```
 As I mentioned, it would be nice to have time to refactor this code, but unfortunately this project was time limited. If you are interested in building upon this work please contact me directly.
 
+## Plot from the analysis
+The estimated benefits of increased walking for a country depend on the shape of the dose response function between physical activity and mortality, and the distribution of physical actiivty in the country.
+![PLOT 1](https://github.com/RobertASmith/HEAT_DRF/blob/master/output/t375/figures/S1_RelativeResults.pdf)
+
 Many thanks,
 
 Rob
