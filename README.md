@@ -1,3 +1,7 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/RobertASmith/HEAT_DRF?color=red&style=plastic)
+![GitHub top language](https://img.shields.io/github/languages/top/RobertASmith/HEAT_DRF?style=plastic)
+![GitHub repo size](https://img.shields.io/github/repo-size/RobertASmith/HEAT_DRF?style=plastic)
+
 # A comparison of WHO-HEAT model results using a non-linear physical activity dose response function with results from the existing tool.
 
 Authors: Robert Smith<sup>1</sup>, Chloe Thomas<sup>1</sup>, Hazel Squires<sup>1</sup> & Elizabeth Goyder<sup>1</sup>
