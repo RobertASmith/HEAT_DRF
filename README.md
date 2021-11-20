@@ -49,13 +49,13 @@ source("scripts/analysis.R")
 ```
 This will run the `analysis.R` script which:
 
-> 1) loads and cleans all necessary data, stored in the 'data' folder, data and merges the data into a single dataframe.
-2) reads in the model function used to compare the three scenarios using the HEAT with a linear and a dose-response function.
-3) reads in the plotting functions to visualise the results.
-4) uses ""R/relativerisksplot.R"" to plot the relative risk functions based upon Woodcock et al. 
-5) runs the analysis described in the publication for three different scenarios and stores results as .
-6) uses 'R/all_plots.R' to read in all the results from the csvs created above, and plots the results, saving them to the 'outputs' folder.
->
+> 1) loads and cleans all necessary data, stored in the `data` folder, data and merges the data into a single dataframe.
+> 2) reads in the model function in `R/model.R` used to compare the three scenarios using the HEAT with a linear and a dose-response function.
+> 3) reads in the plotting functions in `R/plotfunctions.R` to visualise the results.
+> 4) uses `R/relativerisksplot.R` to plot the relative risk functions based upon Woodcock et al. 
+> 5) runs the analysis described in the publication for three different scenarios and stores results as .
+> 6) uses `R/all_plots.R` to read in all the results from the csvs created above, and plots the results, saving them to the 'outputs' folder.
+
 As I mentioned, it would be nice to have time to refactor this code, but unfortunately this project was time limited. If you are interested in building upon this work please contact me directly.
 
 ## Plot from the analysis
