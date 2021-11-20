@@ -7,6 +7,7 @@
 # A comparison of WHO-HEAT model results using a non-linear physical activity dose response function with results from the existing tool.
 
 Authors: Robert Smith<sup>1</sup>, Chloe Thomas<sup>1</sup>, Hazel Squires<sup>1</sup> & Elizabeth Goyder<sup>1</sup>
+<sub><sup>Small text</sup></sub>
 
 <sup>1</sup> School of Health and Related Research, University of Shefﬁeld, Regents Court, UK, S1 4DA
 
