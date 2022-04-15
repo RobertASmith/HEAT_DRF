@@ -2,7 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-output/
 *.pdf
 *.png
 Dissemination/*
