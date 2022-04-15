@@ -45,25 +45,27 @@ ggsave(plot = density_plot,
        width = 12,
        height = 8)
 
-
+# create tables
 HEATcountries <- names(df_dist)[names(df_dist) %in% intersect(merged$country,colnames(metmins))]
+write.csv(x = df_dist[, HEATcountries],
+          file = "output/country_mets_dist.csv")
 
-kable_table1 <- kable(x = df_dist[,HEATcountries[1:floor(length(HEATcountries)/2)]],
-      align = "c",
-      row.names = 1:100,
-      caption = "Percentiles of Weekly MET-mins by country",
-      digits = 0)
+#kable_table1 <- kable(x = df_dist[,HEATcountries[1:floor(length(HEATcountries)/2)]],
+#      align = "c",
+#      row.names = 1:100,
+#      caption = "Percentiles of Weekly MET-mins by country",
+#      digits = 0)
+#
+#kable_table2 <- kable(x = df_dist[,HEATcountries[ceiling(length(HEATcountries)/2):length(HEATcountries)]],
+#                      align = "c",
+#                      row.names = 1:100,
+#                      caption = "Percentiles of Weekly MET-mins by country",
+#                      digits = 0)
+#
+#save_kable(x = kable_table1, 
+#           file = "output/country_dist_tables1.pdf")
 
-kable_table2 <- kable(x = df_dist[,HEATcountries[ceiling(length(HEATcountries)/2):length(HEATcountries)]],
-                      align = "c",
-                      row.names = 1:100,
-                      caption = "Percentiles of Weekly MET-mins by country",
-                      digits = 0)
-
-save_kable(x = kable_table1, 
-           file = "output/country_dist_tables1.pdf")
-
-save_kable(x = kable_table2, 
-           file = "output/country_dist_tables2.pdf")
+#save_kable(x = kable_table2, 
+#           file = "output/country_dist_tables2.pdf")
 
 
