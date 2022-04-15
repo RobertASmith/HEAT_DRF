@@ -5,5 +5,5 @@
 output/
 *.pdf
 *.png
-*/Dissemination
+Dissemination/*
 */archive
